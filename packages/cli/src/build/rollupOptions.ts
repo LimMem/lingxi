@@ -1,18 +1,18 @@
 import path from 'path';
 import commonjs from '@rollup/plugin-commonjs';
-import { getConfigOpts, pkgInfo } from "../utils"
+import { getConfigOpts, getOutputFile, pkgInfo } from "../utils"
 import winPath from '../utils/winPath';
 import { getPlugins } from './rollupPlugins';
 
 
 export default (opts) => {
-  const { compName, outputDir, path: optsPath, outputFilePrefix } = opts;
+  const { compName, outputDir, path: optsPath, outputFilePrefix, isEditor } = opts;
   const { minFile, globals, extraExternals, namePrefix, platform } = getConfigOpts();
   return [
     {
       input: optsPath,
       external: [
-        ...Object.keys(pkgInfo.peerDependencies || {}),
+        ...Object.keys(pkgInfo().peerDependencies || {}),
         ...extraExternals
       ],
       plugins: [
@@ -32,16 +32,24 @@ export default (opts) => {
           ...(globals || {})
         },
         name: `${namePrefix}${compName}`,
-        file: winPath(path.join(outputDir, compName, `${outputFilePrefix}.${platform}.js`))
+        file: winPath(path.join(outputDir, compName, getOutputFile({
+          isMin: false,
+          compName,
+          isEditor
+        })))
       },
-      exportFileName: `${outputFilePrefix}.${platform}.js`
+      exportFileName: getOutputFile({
+        isMin: false,
+        compName,
+        isEditor
+      })
     },
     ...(
       minFile ? [
         {
           input: optsPath,
           external: [
-            ...Object.keys(pkgInfo.peerDependencies || {}),
+            ...Object.keys(pkgInfo().peerDependencies || {}),
             ...extraExternals
           ],
           plugins: [
@@ -61,9 +69,17 @@ export default (opts) => {
               ...(globals || {})
             },
             name: `${namePrefix}${compName}`,
-            file: winPath(path.join(outputDir, compName, `${outputFilePrefix}.${platform}.min.js`))
+            file: winPath(path.join(outputDir, compName, getOutputFile({
+              isMin: true,
+              compName,
+              isEditor
+            })))
           },
-          exportFileName: `${outputFilePrefix}.${platform}.min.js`
+          exportFileName: getOutputFile({
+            isMin: true,
+            compName,
+            isEditor
+          })
         }
       ] : []
     )

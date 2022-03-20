@@ -9,18 +9,13 @@
   },
   "include": [
     "./src",
-    "./typings/"
+    "./typings.d.ts"
   ],
   "typings": "./typings.d.ts",
   "exclude": [
     "node_modules",
     "build",
     "scripts",
-    "acceptance-tests",
     "webpack",
-    "jest",
-    "src/setupTests.ts",
-    "tslint:latest",
-    "tslint-config-prettier"
   ]
 }

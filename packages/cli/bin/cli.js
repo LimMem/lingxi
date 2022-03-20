@@ -13,9 +13,11 @@ const [ cliType ] = args._;
 
 switch (cliType) {
   case "build":
-    require("../lib/build");
+    require("../lib/build")({
+      watch: args.watch || args.w
+    });
     break;
-  case "init":
+  case "create":
     require("../lib/create");
   default:
     break;

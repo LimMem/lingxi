@@ -27,7 +27,8 @@ var _default = opts => {
   const compName = opts.compName,
         outputDir = opts.outputDir,
         optsPath = opts.path,
-        outputFilePrefix = opts.outputFilePrefix;
+        outputFilePrefix = opts.outputFilePrefix,
+        isEditor = opts.isEditor;
 
   const _getConfigOpts = (0, _utils.getConfigOpts)(),
         minFile = _getConfigOpts.minFile,
@@ -38,7 +39,7 @@ var _default = opts => {
 
   return [{
     input: optsPath,
-    external: [...Object.keys(_utils.pkgInfo.peerDependencies || {}), ...extraExternals],
+    external: [...Object.keys((0, _utils.pkgInfo)().peerDependencies || {}), ...extraExternals],
     plugins: [...(0, _rollupPlugins.getPlugins)({
       minFile: false,
       isTypeScript: ['.ts', '.tsx'].includes(_path.default.extname(optsPath))
@@ -52,12 +53,20 @@ var _default = opts => {
         'react': "React"
       }, globals || {}),
       name: `${namePrefix}${compName}`,
-      file: (0, _winPath.default)(_path.default.join(outputDir, compName, `${outputFilePrefix}.${platform}.js`))
+      file: (0, _winPath.default)(_path.default.join(outputDir, compName, (0, _utils.getOutputFile)({
+        isMin: false,
+        compName,
+        isEditor
+      })))
     },
-    exportFileName: `${outputFilePrefix}.${platform}.js`
+    exportFileName: (0, _utils.getOutputFile)({
+      isMin: false,
+      compName,
+      isEditor
+    })
   }, ...(minFile ? [{
     input: optsPath,
-    external: [...Object.keys(_utils.pkgInfo.peerDependencies || {}), ...extraExternals],
+    external: [...Object.keys((0, _utils.pkgInfo)().peerDependencies || {}), ...extraExternals],
     plugins: [...(0, _rollupPlugins.getPlugins)({
       minFile,
       isTypeScript: ['.ts', '.tsx'].includes(_path.default.extname(optsPath))
@@ -71,9 +80,17 @@ var _default = opts => {
         'react': "React"
       }, globals || {}),
       name: `${namePrefix}${compName}`,
-      file: (0, _winPath.default)(_path.default.join(outputDir, compName, `${outputFilePrefix}.${platform}.min.js`))
+      file: (0, _winPath.default)(_path.default.join(outputDir, compName, (0, _utils.getOutputFile)({
+        isMin: true,
+        compName,
+        isEditor
+      })))
     },
-    exportFileName: `${outputFilePrefix}.${platform}.min.js`
+    exportFileName: (0, _utils.getOutputFile)({
+      isMin: true,
+      compName,
+      isEditor
+    })
   }] : [])];
 };
 

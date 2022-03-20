@@ -11,9 +11,9 @@ const RC_FILES_SUFFIX = [
 const RC_FILENAME = "lingxirc"
 
 export const getConfigFile = () => { 
-  const suffix = RC_FILES_SUFFIX.find((suffix) => existsSync(winPath(join(cwd, `${RC_FILENAME}${suffix}`))));
+  const suffix = RC_FILES_SUFFIX.find((suffix) => existsSync(winPath(join(cwd(), `${RC_FILENAME}${suffix}`))));
   if (!suffix) {
     return null;
   }
-  return winPath(join(cwd, `${RC_FILENAME}${suffix}`));
+  return winPath(join(cwd(), `${RC_FILENAME}${suffix}`));
 };

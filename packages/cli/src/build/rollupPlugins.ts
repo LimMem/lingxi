@@ -41,10 +41,10 @@ export const getPlugins = ({ minFile = false, isTypeScript }) => {
     ...(isTypeScript
       ? [
         typescript2({
-          cwd,
+          cwd: cwd(),
           clean: true,
           cacheRoot: `${tempDir}/.rollup_plugin_typescript2_cache`,
-          tsconfig: [path.join(cwd, 'tsconfig.json')].find(fs.existsSync),
+          tsconfig: [path.join(cwd(), 'tsconfig.json')].find(fs.existsSync),
           tsconfigDefaults: {
             compilerOptions: {
               declaration: false,

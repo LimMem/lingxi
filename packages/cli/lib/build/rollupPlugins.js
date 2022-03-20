@@ -72,10 +72,10 @@ const getPlugins = ({
   }), ...(replaceOpts && Object.keys(replaceOpts || {}).length ? [(0, _pluginReplace.default)(replaceOpts)] : []), (0, _pluginNodeResolve.default)({
     mainFields: ['module', 'jsnext:main', 'main']
   }), ...(isTypeScript ? [(0, _rollupPluginTypescript.default)(_objectSpread({
-    cwd: _tool.cwd,
+    cwd: (0, _tool.cwd)(),
     clean: true,
     cacheRoot: `${_tempDir.default}/.rollup_plugin_typescript2_cache`,
-    tsconfig: [_path.default.join(_tool.cwd, 'tsconfig.json')].find(_fs.default.existsSync),
+    tsconfig: [_path.default.join((0, _tool.cwd)(), 'tsconfig.json')].find(_fs.default.existsSync),
     tsconfigDefaults: {
       compilerOptions: {
         declaration: false

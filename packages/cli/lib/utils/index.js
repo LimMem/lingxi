@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.tsconfigPath = exports.targetAbsolutePaths = exports.pkgPath = exports.pkgInfo = exports.outputPathAbsolutePath = exports.getConfigOpts = exports.excludeDirAbsolutePaths = void 0;
+exports.tsconfigPath = exports.targetAbsolutePaths = exports.pkgPath = exports.pkgInfo = exports.outputPathAbsolutePath = exports.getOutputFilePrefix = exports.getOutputFile = exports.getConfigOpts = exports.excludeDirAbsolutePaths = void 0;
 
 var _path = require("path");
 
@@ -56,7 +56,7 @@ const targetAbsolutePaths = () => {
     target = [libraryDir];
   }
 
-  return target.map(dirName => (0, _winPath.default)((0, _path.join)(_tool.cwd, dirName)));
+  return target.map(dirName => (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), dirName)));
 };
 /**
  * 输出文件夹
@@ -64,31 +64,80 @@ const targetAbsolutePaths = () => {
 
 
 exports.targetAbsolutePaths = targetAbsolutePaths;
-const outputPathAbsolutePath = (0, _winPath.default)((0, _path.join)(_tool.cwd, getConfigOpts().outputDir));
+
+const outputPathAbsolutePath = () => {
+  return (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), getConfigOpts().outputDir));
+};
 /**
  * 放弃编译的文件夹
  */
 
+
 exports.outputPathAbsolutePath = outputPathAbsolutePath;
-const excludeDirAbsolutePaths = (getConfigOpts().exclude || []).map(exc => (0, _winPath.default)((0, _path.join)(_tool.cwd, exc)));
+
+const excludeDirAbsolutePaths = () => {
+  return (getConfigOpts().exclude || []).map(exc => (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), exc)));
+};
 /**
  * tsconfig.json 路径
  */
 
+
 exports.excludeDirAbsolutePaths = excludeDirAbsolutePaths;
-const tsconfigPath = _fs.default.existsSync((0, _winPath.default)((0, _path.join)(_tool.cwd, 'tsconfig.json'))) ? (0, _winPath.default)((0, _path.join)(_tool.cwd, 'tsconfig.json')) : null;
+
+const tsconfigPath = () => {
+  return _fs.default.existsSync((0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), 'tsconfig.json'))) ? (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), 'tsconfig.json')) : null;
+};
 /**
  * pkg路径
  */
 
+
 exports.tsconfigPath = tsconfigPath;
-const pkgPath = (0, _winPath.default)((0, _path.join)(_tool.cwd, 'package.json'));
+
+const pkgPath = () => {
+  return (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), 'package.json'));
+};
 /**
  * pkg信息
  */
 
+
 exports.pkgPath = pkgPath;
 
-const pkgInfo = require(pkgPath);
+const pkgInfo = () => require(pkgPath());
+/**
+ * 获取输出路径前缀
+ * @param isEditor 
+ * @param compName 
+ * @returns 
+ */
+
 
 exports.pkgInfo = pkgInfo;
+
+const getOutputFilePrefix = (isEditor, compName) => {
+  return isEditor ? `${compName}.editor` : compName;
+};
+/**
+ * 获取输出文件名
+ * @param param0 
+ * @returns 
+ */
+
+
+exports.getOutputFilePrefix = getOutputFilePrefix;
+
+const getOutputFile = ({
+  isMin = false,
+  compName,
+  isEditor
+}) => {
+  const _getConfigOpts2 = getConfigOpts(),
+        platform = _getConfigOpts2.platform;
+
+  const outputFilePrefix = getOutputFilePrefix(isEditor, compName);
+  return `${outputFilePrefix}.${platform}${isMin ? '.min' : ""}.js`;
+};
+
+exports.getOutputFile = getOutputFile;
