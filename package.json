@@ -1,0 +1,14 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "build": "lerna run build-test"
+  },
+  "devDependencies": {
+    "father-build": "^1.21.2",
+    "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "execa": "^6.1.0"
+  }
+}

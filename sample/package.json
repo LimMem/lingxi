@@ -1,0 +1,20 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "lingxi-cli build",
+    "watch": "lingxi-cli build -w"
+  },
+  "peerDependencies": {
+    "react": "17.0.2"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1"
+  },
+  "devDependencies": {
+    "father-build": "^1.21.2",
+    "react": "^17.0.2"
+  }
+}
