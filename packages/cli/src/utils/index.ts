@@ -3,7 +3,7 @@ import fs from 'fs';
 import winPath from './winPath'
 import defaultConfig from '../build/defaultConfig';
 import { getConfigFile } from './getConfig'
-import { cwd, getCompName, getFileName } from './tool';
+import { cwd } from './tool';
 import { GetConfigOptsFunction } from '..';
 
 /**
@@ -43,14 +43,14 @@ export const outputPathAbsolutePath = () => {
   );
 };
 
-/**
- * 放弃编译的文件夹
- */
-export const excludeDirAbsolutePaths = () => { 
-  return (getConfigOpts().exclude || []).map(exc => winPath(
-    join(cwd(), exc)
-  ));
-};
+// /**
+//  * 放弃编译的文件夹
+//  */
+// export const excludeDirAbsolutePaths = () => { 
+//   return (getConfigOpts().exclude || []).map(exc => winPath(
+//     join(cwd(), exc)
+//   ));
+// };
 
 /**
  * tsconfig.json 路径

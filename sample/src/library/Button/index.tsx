@@ -5,7 +5,7 @@ export interface AProps {}
 
 const A: React.FC<AProps> = () => {
   console.log('Test');
-  return <div></div>;
+  return <div>Test</div>;
 };
 
 export default A;

@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "lingxi-cli build",
-    "watch": "lingxi-cli build --watch"
+    "build": "lingxi build",
+    "watch:all": "lingxi build --watch",
+    "server": "lingxi build --watch --server"
   },
   "peerDependencies": {
     "react": "17.0.2"

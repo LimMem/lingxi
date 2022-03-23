@@ -6,7 +6,7 @@
   "license": "MIT",
   "typings": "./src/index.d.ts",
   "bin": {
-    "lingxi-cli": "./bin/cli.js"
+    "lingxi": "./bin/cli.js"
   },
   "files": [
     "lib",
@@ -18,14 +18,26 @@
     "watch": "umi-tools build --watch"
   },
   "dependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "7.16.11",
+    "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "21.0.2",
-    "gulp": "4.0.2",
-    "gulp-typescript": "6.0.0-alpha.1",
+    "@rollup/plugin-json": "4.1.0",
+    "@rollup/plugin-node-resolve": "13.1.3",
+    "@rollup/plugin-replace": "4.0.0",
+    "@rollup/plugin-url": "6.1.0",
+    "@svgr/rollup": "6.2.1",
+    "autoprefixer": "9.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "less-plugin-npm-import": "2.1.0",
     "mustache": "4.2.0",
     "node-watch": "0.7.3",
     "rimraf": "3.0.2",
     "rollup": "2.70.1",
-    "rollup-plugin-postcss": "3.1.8"
+    "rollup-plugin-postcss": "3.1.8",
+    "rollup-plugin-terser": "7.0.2",
+    "rollup-plugin-typescript2": "0.31.2",
+    "temp-dir": "2.0.0"
   },
   "devDependencies": {
     "umi-tools": "0.4.0"

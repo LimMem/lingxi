@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.tsconfigPath = exports.targetAbsolutePaths = exports.pkgPath = exports.pkgInfo = exports.outputPathAbsolutePath = exports.getOutputFilePrefix = exports.getOutputFile = exports.getConfigOpts = exports.excludeDirAbsolutePaths = void 0;
+exports.tsconfigPath = exports.targetAbsolutePaths = exports.pkgPath = exports.pkgInfo = exports.outputPathAbsolutePath = exports.getOutputFilePrefix = exports.getOutputFile = exports.getConfigOpts = void 0;
 
 var _path = require("path");
 
@@ -67,23 +67,21 @@ exports.targetAbsolutePaths = targetAbsolutePaths;
 
 const outputPathAbsolutePath = () => {
   return (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), getConfigOpts().outputDir));
-};
-/**
- * 放弃编译的文件夹
- */
+}; // /**
+//  * 放弃编译的文件夹
+//  */
+// export const excludeDirAbsolutePaths = () => { 
+//   return (getConfigOpts().exclude || []).map(exc => winPath(
+//     join(cwd(), exc)
+//   ));
+// };
 
-
-exports.outputPathAbsolutePath = outputPathAbsolutePath;
-
-const excludeDirAbsolutePaths = () => {
-  return (getConfigOpts().exclude || []).map(exc => (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), exc)));
-};
 /**
  * tsconfig.json 路径
  */
 
 
-exports.excludeDirAbsolutePaths = excludeDirAbsolutePaths;
+exports.outputPathAbsolutePath = outputPathAbsolutePath;
 
 const tsconfigPath = () => {
   return _fs.default.existsSync((0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), 'tsconfig.json'))) ? (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), 'tsconfig.json')) : null;

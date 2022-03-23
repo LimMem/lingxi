@@ -1,13 +1,14 @@
 export default {
   libraryDir: "src/library",
   outputDir: 'dist',
-  exclude: [],
-  extraExternals: [],
+  external: [],
   globals: {},
-  minFile: true,
+  outputType: 'production',
   replace: {},
   disableTypeCheck: true,
   typescriptOpts: {},
   platform: 'app',
-  namePrefix: "LingXi"
+  namePrefix: "LingXi",
+  targets: ["> 1%", "last 2 versions", "not ie <= 8"],
+  postcssExtension: {}
 }

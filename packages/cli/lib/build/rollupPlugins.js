@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getPlugins = void 0;
 
+var _fs = _interopRequireDefault(require("fs"));
+
+var _path = _interopRequireDefault(require("path"));
+
 var _rollupPluginPostcss = _interopRequireDefault(require("rollup-plugin-postcss"));
 
 var _pluginUrl = _interopRequireDefault(require("@rollup/plugin-url"));
@@ -21,17 +25,15 @@ var _rollupPluginTerser = require("rollup-plugin-terser");
 
 var _rollup = _interopRequireDefault(require("@svgr/rollup"));
 
+var _pluginBabel = require("@rollup/plugin-babel");
+
 var _lessPluginNpmImport = _interopRequireDefault(require("less-plugin-npm-import"));
 
 var _autoprefixer = _interopRequireDefault(require("autoprefixer"));
 
-var _tool = require("../utils/tool");
-
-var _path = _interopRequireDefault(require("path"));
-
-var _fs = _interopRequireDefault(require("fs"));
-
 var _tempDir = _interopRequireDefault(require("temp-dir"));
+
+var _tool = require("../utils/tool");
 
 var _utils = require("../utils");
 
@@ -45,15 +47,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 const getPlugins = ({
   minFile = false,
-  isTypeScript
+  isTypeScript,
+  name
 }) => {
   const _getConfigOpts = (0, _utils.getConfigOpts)(),
         _getConfigOpts$replac = _getConfigOpts.replace,
         replaceOpts = _getConfigOpts$replac === void 0 ? {} : _getConfigOpts$replac,
         disableTypeCheck = _getConfigOpts.disableTypeCheck,
-        typescriptOpts = _getConfigOpts.typescriptOpts;
+        typescriptOpts = _getConfigOpts.typescriptOpts,
+        targets = _getConfigOpts.targets,
+        postcssExtension = _getConfigOpts.postcssExtension;
 
-  return [(0, _pluginUrl.default)(), (0, _rollup.default)(), (0, _rollupPluginPostcss.default)({
+  return [(0, _pluginUrl.default)(), (0, _rollup.default)(), (0, _rollupPluginPostcss.default)(_objectSpread({
     autoModules: false,
     minimize: minFile,
     use: {
@@ -69,7 +74,11 @@ const getPlugins = ({
     plugins: [(0, _autoprefixer.default)({
       remove: false
     })]
-  }), ...(replaceOpts && Object.keys(replaceOpts || {}).length ? [(0, _pluginReplace.default)(replaceOpts)] : []), (0, _pluginNodeResolve.default)({
+  }, postcssExtension)), ...(replaceOpts && Object.keys(replaceOpts || {}).length ? [(0, _pluginReplace.default)(_objectSpread({
+    __buildDate__: () => JSON.stringify(new Date()),
+    __buildVersion__: () => JSON.stringify((0, _utils.pkgInfo)().version),
+    'process.env.NODE_ENV': minFile ? JSON.stringify('production') : JSON.stringify('development')
+  }, replaceOpts))] : []), (0, _pluginNodeResolve.default)({
     mainFields: ['module', 'jsnext:main', 'main']
   }), ...(isTypeScript ? [(0, _rollupPluginTypescript.default)(_objectSpread({
     cwd: (0, _tool.cwd)(),
@@ -88,9 +97,18 @@ const getPlugins = ({
       }
     },
     check: !disableTypeCheck
-  }, typescriptOpts || {}))] : []), (0, _pluginJson.default)(), ...(minFile ? [(0, _pluginReplace.default)({
-    'process.env.NODE_ENV': minFile ? JSON.stringify('production') : JSON.stringify('development')
-  }), (0, _rollupPluginTerser.terser)({
+  }, typescriptOpts || {}))] : []), (0, _pluginBabel.babel)({
+    babelrc: false,
+    configFile: false,
+    babelHelpers: "bundled",
+    extensions: ['ts', 'tsx', 'js', 'jsx', '.json'],
+    presets: [[require.resolve("@babel/preset-typescript")], [require.resolve('@babel/preset-env'), {
+      useBuiltIns: 'usage',
+      corejs: 2,
+      targets
+    }], [require.resolve('@babel/preset-react')]],
+    exclude: /\/node_modules\//
+  }), (0, _pluginJson.default)(), ...(minFile ? [(0, _rollupPluginTerser.terser)({
     compress: {
       pure_getters: true,
       unsafe: true,

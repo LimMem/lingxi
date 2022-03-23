@@ -1,7 +1,7 @@
 module.exports = {
   outputDir: "lib",
   libraryDir: ["src/library"],
-  minFile: true,
+  outputType: "production", // development, all, production
   namePrefix: "Lingxi",
-  platform: "app"
+  platform: "pc",
 }

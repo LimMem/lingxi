@@ -27,22 +27,24 @@ var _default = opts => {
   const compName = opts.compName,
         outputDir = opts.outputDir,
         optsPath = opts.path,
-        outputFilePrefix = opts.outputFilePrefix,
         isEditor = opts.isEditor;
 
   const _getConfigOpts = (0, _utils.getConfigOpts)(),
-        minFile = _getConfigOpts.minFile,
+        outputType = _getConfigOpts.outputType,
         globals = _getConfigOpts.globals,
-        extraExternals = _getConfigOpts.extraExternals,
-        namePrefix = _getConfigOpts.namePrefix,
-        platform = _getConfigOpts.platform;
+        external = _getConfigOpts.external,
+        namePrefix = _getConfigOpts.namePrefix;
 
-  return [{
+  const name = `${namePrefix}${compName}`;
+  const footer = `window.${name}={};\nwindow.${name}.__VERSION__=${JSON.stringify((0, _utils.pkgInfo)().version)};\nwindow.${name}.__BUILD_DATE__=${JSON.stringify(new Date())}`;
+  const minFile = outputType === 'all' || outputType === 'production';
+  return [...(outputType === 'all' || outputType === 'development' ? [{
     input: optsPath,
-    external: [...Object.keys((0, _utils.pkgInfo)().peerDependencies || {}), ...extraExternals],
+    external: [...Object.keys((0, _utils.pkgInfo)().peerDependencies || {}), ...external],
     plugins: [...(0, _rollupPlugins.getPlugins)({
       minFile: false,
-      isTypeScript: ['.ts', '.tsx'].includes(_path.default.extname(optsPath))
+      isTypeScript: ['.ts', '.tsx'].includes(_path.default.extname(optsPath)),
+      name
     }), (0, _pluginCommonjs.default)({
       include: /node_modules/
     })],
@@ -52,7 +54,8 @@ var _default = opts => {
       globals: _objectSpread({
         'react': "React"
       }, globals || {}),
-      name: `${namePrefix}${compName}`,
+      name,
+      footer,
       file: (0, _winPath.default)(_path.default.join(outputDir, compName, (0, _utils.getOutputFile)({
         isMin: false,
         compName,
@@ -64,12 +67,13 @@ var _default = opts => {
       compName,
       isEditor
     })
-  }, ...(minFile ? [{
+  }] : []), ...(minFile ? [{
     input: optsPath,
-    external: [...Object.keys((0, _utils.pkgInfo)().peerDependencies || {}), ...extraExternals],
+    external: [...Object.keys((0, _utils.pkgInfo)().peerDependencies || {}), ...external],
     plugins: [...(0, _rollupPlugins.getPlugins)({
       minFile,
-      isTypeScript: ['.ts', '.tsx'].includes(_path.default.extname(optsPath))
+      isTypeScript: ['.ts', '.tsx'].includes(_path.default.extname(optsPath)),
+      name
     }), (0, _pluginCommonjs.default)({
       include: /node_modules/
     })],
@@ -79,7 +83,8 @@ var _default = opts => {
       globals: _objectSpread({
         'react': "React"
       }, globals || {}),
-      name: `${namePrefix}${compName}`,
+      name,
+      footer,
       file: (0, _winPath.default)(_path.default.join(outputDir, compName, (0, _utils.getOutputFile)({
         isMin: true,
         compName,
