@@ -1,5 +1,15 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
 var _rollup = require("rollup");
 
 var _chalk = _interopRequireDefault(require("chalk"));
@@ -14,48 +24,77 @@ var _utils = require("./utils");
 
 var _rollupOptions = _interopRequireDefault(require("./build/rollupOptions"));
 
-const _excluded = ["output", "exportFileName"];
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var _excluded = ["output", "exportFileName"];
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 /**
  * 编译单个组件
  * @param compInfo 
  */
-const rollupBuildSingleFile = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator(function* (compInfo) {
-    const opts = (0, _rollupOptions.default)(_objectSpread(_objectSpread({}, compInfo), {}, {
-      outputDir: (0, _utils.outputPathAbsolutePath)()
-    }));
+var rollupBuildSingleFile = /*#__PURE__*/function () {
+  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(compInfo) {
+    var opts, j, _opts$j, output, exportFileName, input, bundle;
 
-    for (let j = 0; j < opts.length; j++) {
-      const _opts$j = opts[j],
-            output = _opts$j.output,
-            exportFileName = _opts$j.exportFileName,
-            input = _objectWithoutProperties(_opts$j, _excluded); // 开始编译
+    return _regenerator["default"].wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.t0 = _rollupOptions["default"];
+            _context.t1 = _objectSpread;
+            _context.t2 = _objectSpread({}, compInfo);
+            _context.t3 = {};
+            _context.next = 6;
+            return (0, _utils.outputPathAbsolutePath)();
 
+          case 6:
+            _context.t4 = _context.sent;
+            _context.t5 = {
+              outputDir: _context.t4
+            };
+            _context.t6 = (0, _context.t1)(_context.t2, _context.t3, _context.t5);
+            _context.next = 11;
+            return (0, _context.t0)(_context.t6);
 
-      const bundle = yield (0, _rollup.rollup)(input);
-      yield bundle.write(output
-      /** 类型校验错误 */
-      );
-      console.log(_chalk.default.green(`${compInfo.relativeInput} ---> ${exportFileName}`));
-    }
-  });
+          case 11:
+            opts = _context.sent;
+            j = 0;
+
+          case 13:
+            if (!(j < opts.length)) {
+              _context.next = 24;
+              break;
+            }
+
+            _opts$j = opts[j], output = _opts$j.output, exportFileName = _opts$j.exportFileName, input = (0, _objectWithoutProperties2["default"])(_opts$j, _excluded); // 开始编译
+
+            _context.next = 17;
+            return (0, _rollup.rollup)(input);
+
+          case 17:
+            bundle = _context.sent;
+            _context.next = 20;
+            return bundle.write(output
+            /** 类型校验错误 */
+            );
+
+          case 20:
+            console.log(_chalk["default"].green("".concat(compInfo.relativeInput, " ---> ").concat(exportFileName)));
+
+          case 21:
+            j++;
+            _context.next = 13;
+            break;
+
+          case 24:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
 
   return function rollupBuildSingleFile(_x) {
     return _ref.apply(this, arguments);
@@ -67,62 +106,136 @@ const rollupBuildSingleFile = /*#__PURE__*/function () {
  */
 
 
-const rollupAllBuild = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator(function* (compNames) {
-    for (let index = 0; index < compNames.length; index++) {
-      const compInfo = compNames[index];
-      yield rollupBuildSingleFile(compInfo);
-    }
-  });
+var rollupAllBuild = /*#__PURE__*/function () {
+  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(compNames) {
+    var index, compInfo;
+    return _regenerator["default"].wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            index = 0;
+
+          case 1:
+            if (!(index < compNames.length)) {
+              _context2.next = 8;
+              break;
+            }
+
+            compInfo = compNames[index];
+            _context2.next = 5;
+            return rollupBuildSingleFile(compInfo);
+
+          case 5:
+            index++;
+            _context2.next = 1;
+            break;
+
+          case 8:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
 
   return function rollupAllBuild(_x2) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-const build = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(function* (opts) {
-    const _opts$watch = opts.watch,
-          w = _opts$watch === void 0 ? false : _opts$watch;
-    const targetAbsolutePath = (0, _utils.targetAbsolutePaths)();
+var build = /*#__PURE__*/function () {
+  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(opts) {
+    var _opts$watch, w, _yield$getConfigOpts, libraryDir, targetAbsolutePath, compNames, nodeWatcher;
 
-    _rimraf.default.sync((0, _utils.outputPathAbsolutePath)());
+    return _regenerator["default"].wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _opts$watch = opts.watch, w = _opts$watch === void 0 ? false : _opts$watch;
+            _context4.next = 3;
+            return (0, _utils.getConfigOpts)();
 
-    const compNames = yield (0, _tool.getCompNames)(targetAbsolutePath);
-    yield rollupAllBuild(compNames);
+          case 3:
+            _yield$getConfigOpts = _context4.sent;
+            libraryDir = _yield$getConfigOpts.libraryDir;
+            _context4.next = 7;
+            return (0, _utils.targetAbsolutePaths)();
 
-    if (w) {
-      const nodeWatcher = (0, _nodeWatch.default)(targetAbsolutePath, {
-        recursive: true
-      }, /*#__PURE__*/function () {
-        var _ref4 = _asyncToGenerator(function* (eventType, filePath) {
-          const _yield$getCompName = yield (0, _tool.getCompName)(filePath),
-                isED = _yield$getCompName.isED,
-                _yield$getCompName$co = _yield$getCompName.compNames,
-                compNames = _yield$getCompName$co === void 0 ? [] : _yield$getCompName$co,
-                name = _yield$getCompName.name;
+          case 7:
+            targetAbsolutePath = _context4.sent;
+            _context4.t0 = _rimraf["default"];
+            _context4.next = 11;
+            return (0, _utils.outputPathAbsolutePath)();
 
-          (0, _tool.removeWillBuildFile)({
-            isED,
-            name
-          }, filePath);
-          rollupAllBuild(compNames);
-          isED ? console.log(_chalk.default.blue(`${eventType}组件: ${name}/${name}ED`)) : console.log(_chalk.default.blue(`update ${name}`));
-        });
+          case 11:
+            _context4.t1 = _context4.sent;
 
-        return function (_x4, _x5) {
-          return _ref4.apply(this, arguments);
-        };
-      }());
-      console.log(_chalk.default.yellow(`正在监听: ${(0, _utils.getConfigOpts)().libraryDir}`));
-      process.on("SIGINT", () => {
-        nodeWatcher.close();
-      });
-    } else {
-      console.log();
-      console.log(_chalk.default.green(`🌈🍻编译完成。`));
-    }
-  });
+            _context4.t0.sync.call(_context4.t0, _context4.t1);
+
+            _context4.next = 15;
+            return (0, _tool.getCompNames)(targetAbsolutePath);
+
+          case 15:
+            compNames = _context4.sent;
+            _context4.next = 18;
+            return rollupAllBuild(compNames);
+
+          case 18:
+            if (w) {
+              nodeWatcher = (0, _nodeWatch["default"])(targetAbsolutePath, {
+                recursive: true
+              }, /*#__PURE__*/function () {
+                var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(eventType, filePath) {
+                  var _yield$getCompName, isED, _yield$getCompName$co, compNames, name;
+
+                  return _regenerator["default"].wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _context3.next = 2;
+                          return (0, _tool.getCompName)(filePath);
+
+                        case 2:
+                          _yield$getCompName = _context3.sent;
+                          isED = _yield$getCompName.isED;
+                          _yield$getCompName$co = _yield$getCompName.compNames;
+                          compNames = _yield$getCompName$co === void 0 ? [] : _yield$getCompName$co;
+                          name = _yield$getCompName.name;
+                          (0, _tool.removeWillBuildFile)({
+                            isED: isED,
+                            name: name
+                          }, filePath);
+                          rollupAllBuild(compNames);
+                          isED ? console.log(_chalk["default"].blue("".concat(eventType, "\u7EC4\u4EF6: ").concat(name, "/").concat(name, "ED"))) : console.log(_chalk["default"].blue("update ".concat(name)));
+
+                        case 10:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                }));
+
+                return function (_x4, _x5) {
+                  return _ref4.apply(this, arguments);
+                };
+              }());
+              console.log(_chalk["default"].yellow("\u6B63\u5728\u76D1\u542C: ".concat(libraryDir)));
+              process.on("SIGINT", function () {
+                nodeWatcher.close();
+              });
+            } else {
+              console.log();
+              console.log(_chalk["default"].green("\uD83C\uDF08\uD83C\uDF7B\u7F16\u8BD1\u5B8C\u6210\u3002"));
+            }
+
+          case 19:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
 
   return function build(_x3) {
     return _ref3.apply(this, arguments);

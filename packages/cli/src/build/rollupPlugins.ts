@@ -14,10 +14,15 @@ import autoprefixer from 'autoprefixer';
 import tempDir from 'temp-dir';
 import { cwd } from '../utils/tool';
 import { getConfigOpts, pkgInfo } from '../utils';
+import { getBabelConfig } from './babelConfig';
 
-export const getPlugins = ({ minFile = false, isTypeScript, name }) => {
-  const { replace: replaceOpts = {}, disableTypeCheck, typescriptOpts, targets, postcssExtension } = getConfigOpts();
+export const getPlugins = async ({ minFile = false, isTypeScript, name }) => {
+  const { replace: replaceOpts = {}, disableTypeCheck, typescriptOpts, postcssExtension } = await getConfigOpts();
   return [
+    nodeResolve({
+      preferBuiltins: true,
+      browser: true,
+    }),
     url(),
     svgr(),
     postcss({
@@ -42,9 +47,6 @@ export const getPlugins = ({ minFile = false, isTypeScript, name }) => {
       'process.env.NODE_ENV': minFile ? JSON.stringify('production') : JSON.stringify('development'),
       ...replaceOpts,
     })] : []),
-    nodeResolve({
-      mainFields: ['module', 'jsnext:main', 'main'],
-    }),
     ...(isTypeScript
       ? [
         typescript2({
@@ -68,22 +70,7 @@ export const getPlugins = ({ minFile = false, isTypeScript, name }) => {
         }),
       ]
       : []),
-    babel({
-      babelrc: false,
-      configFile: false,
-      babelHelpers: "bundled",
-      extensions: ['ts', 'tsx', 'js', 'jsx', '.json'],
-      presets: [
-        [require.resolve("@babel/preset-typescript")],
-        [require.resolve('@babel/preset-env'), {
-          useBuiltIns: 'usage',
-          corejs: 2,
-          targets
-        }],
-        [require.resolve('@babel/preset-react')]
-      ],
-      exclude: /\/node_modules\//,
-    }),
+    babel(await getBabelConfig()),
     json(),
     ...(minFile ? [
       terser({

@@ -10,5 +10,9 @@ export default {
   platform: 'app',
   namePrefix: "LingXi",
   targets: ["> 1%", "last 2 versions", "not ie <= 8"],
-  postcssExtension: {}
+  postcssExtension: {},
+  babelOptions: {
+    plugins: [],
+    presets: []
+  }
 }

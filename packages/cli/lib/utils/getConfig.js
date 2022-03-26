@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,19 +15,19 @@ var _tool = require("./tool");
 
 var _winPath = _interopRequireDefault(require("./winPath"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var RC_FILES_SUFFIX = ['.ts', '.js'];
+var RC_FILENAME = "lingxirc";
 
-const RC_FILES_SUFFIX = ['.ts', '.js'];
-const RC_FILENAME = "lingxirc";
-
-const getConfigFile = () => {
-  const suffix = RC_FILES_SUFFIX.find(suffix => (0, _fs.existsSync)((0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), `${RC_FILENAME}${suffix}`))));
+var getConfigFile = function getConfigFile() {
+  var suffix = RC_FILES_SUFFIX.find(function (suffix) {
+    return (0, _fs.existsSync)((0, _winPath["default"])((0, _path.join)((0, _tool.cwd)(), "".concat(RC_FILENAME).concat(suffix))));
+  });
 
   if (!suffix) {
     return null;
   }
 
-  return (0, _winPath.default)((0, _path.join)((0, _tool.cwd)(), `${RC_FILENAME}${suffix}`));
+  return (0, _winPath["default"])((0, _path.join)((0, _tool.cwd)(), "".concat(RC_FILENAME).concat(suffix)));
 };
 
 exports.getConfigFile = getConfigFile;

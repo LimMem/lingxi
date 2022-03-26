@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   libraryDir: "src/library",
   outputDir: 'dist',
@@ -16,6 +16,10 @@ var _default = {
   platform: 'app',
   namePrefix: "LingXi",
   targets: ["> 1%", "last 2 versions", "not ie <= 8"],
-  postcssExtension: {}
+  postcssExtension: {},
+  babelOptions: {
+    plugins: [],
+    presets: []
+  }
 };
-exports.default = _default;
+exports["default"] = _default;

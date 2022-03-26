@@ -9,7 +9,7 @@ import { getConfigOpts, getOutputFile, getOutputFilePrefix, outputPathAbsolutePa
  */
 export const cwd = process.cwd;
 
-const getCompEDOpts = (files, dirPath) => { 
+const getCompEDOpts = (files, dirPath) => {
   const findED = (f) => {
     return ['.tsx', '.jsx', '.js', '.ts'].find(suffix => fs.existsSync(path.join(dirPath, f, `${f}ED`, `index${suffix}`)));
   }
@@ -24,7 +24,7 @@ const getCompEDOpts = (files, dirPath) => {
   return targetED || [];
 }
 
-const getCompOpts = (files, dirPath) => { 
+const getCompOpts = (files, dirPath) => {
   const find = (f) => {
     return ['.tsx', '.jsx', '.js', '.ts'].find(suffix => fs.existsSync(path.join(dirPath, f, `index${suffix}`)));
   }
@@ -73,8 +73,8 @@ export const getCompNames = async (dirPaths) => {
   return target;
 };
 
-export const getFileName = (iPath = "") => { 
-  const targetPath = targetAbsolutePaths();
+export const getFileName = async (iPath = "") => {
+  const targetPath = await targetAbsolutePaths();
   const p = targetPath.find(p => new RegExp(`^${p}`).test(iPath));
   if (p) {
     const fileNames = iPath.replace(p, '').split('/');
@@ -92,7 +92,7 @@ export const getFileName = (iPath = "") => {
 }
 
 export const getCompName = async (iPath = "") => {
-  const fileOpts = getFileName(iPath);
+  const fileOpts = await getFileName(iPath);
   if (fileOpts) {
     const { name, targetPath, isED } = fileOpts;
     if (isED) {
@@ -112,16 +112,16 @@ export const getCompName = async (iPath = "") => {
 }
 
 // 移除要编译的文件
-export const removeWillBuildFile = ({ isED, name }, filePath = "") => { 
-  const { minFile } = getConfigOpts();
-  const nameDir = path.join(outputPathAbsolutePath(), name);
-  rimraf.sync(path.join(nameDir, getOutputFile({ isMin: false, compName: name, isEditor: isED })));
-  if (minFile) {
-    rimraf.sync(path.join(nameDir, getOutputFile({ isMin: true, compName: name, isEditor: isED })));
+export const removeWillBuildFile = async ({ isED, name }, filePath = "") => {
+  const { outputType } = await getConfigOpts();
+  const nameDir = path.join(await outputPathAbsolutePath(), name);
+  rimraf.sync(path.join(nameDir, await getOutputFile({ isMin: false, compName: name, isEditor: isED })));
+  if (['all', 'production'].includes(outputType)) {
+    rimraf.sync(path.join(nameDir, await getOutputFile({ isMin: true, compName: name, isEditor: isED })));
   }
   // 如果文件夹无文件，就把文件夹删除
   if (fs.existsSync(nameDir)) {
-    fs.readdir(nameDir, (err,files)=>{
+    fs.readdir(nameDir, (err, files) => {
       if (err) {
         console.log(err);
       } else if (!files?.length) {

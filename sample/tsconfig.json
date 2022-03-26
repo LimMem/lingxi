@@ -13,7 +13,6 @@
   ],
   "typings": "./typings.d.ts",
   "exclude": [
-    "node_modules",
     "build",
     "scripts",
     "lib",

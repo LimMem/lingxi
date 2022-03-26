@@ -1,4 +1,4 @@
-import { rollup } from 'rollup';
+import { rollup, RollupOptions } from 'rollup';
 import chalk from 'chalk';
 import rimraf from "rimraf";
 import nodeWatch from 'node-watch';
@@ -6,22 +6,21 @@ import { getCompName, getCompNames, removeWillBuildFile } from './utils/tool';
 import { getConfigOpts, outputPathAbsolutePath, targetAbsolutePaths } from './utils';
 import rollupOpts from './build/rollupOptions';
 
-
 /**
  * 编译单个组件
  * @param compInfo 
  */
 const rollupBuildSingleFile = async (compInfo) => {
-  const opts = rollupOpts({
+  const opts = await rollupOpts({
     ...compInfo,
-    outputDir: outputPathAbsolutePath(),
+    outputDir: await outputPathAbsolutePath(),
   });
   for (let j = 0; j < opts.length; j++) {
-    const { output, exportFileName, ...input } = opts[j]; 
-      // 开始编译
-      const bundle = await rollup(input);
-      await bundle.write(output as any /** 类型校验错误 */);
-      console.log(chalk.green(`${compInfo.relativeInput} ---> ${exportFileName}`));
+    const { output, exportFileName, ...input } = opts[j];
+    // 开始编译
+    const bundle = await rollup(input as RollupOptions);
+    await bundle.write(output as any /** 类型校验错误 */);
+    console.log(chalk.green(`${compInfo.relativeInput} ---> ${exportFileName}`));
   }
 };
 
@@ -29,7 +28,7 @@ const rollupBuildSingleFile = async (compInfo) => {
  * 编译所有组件
  * @param compNames 
  */
-const rollupAllBuild = async (compNames) => { 
+const rollupAllBuild = async (compNames) => {
   for (let index = 0; index < compNames.length; index++) {
     const compInfo = compNames[index];
     await rollupBuildSingleFile(compInfo);
@@ -39,9 +38,9 @@ const rollupAllBuild = async (compNames) => {
 
 const build = async (opts: any) => {
   const { watch: w = false } = opts;
-
-  const targetAbsolutePath = targetAbsolutePaths();
-  rimraf.sync(outputPathAbsolutePath());
+  const { libraryDir } = await getConfigOpts();
+  const targetAbsolutePath = await targetAbsolutePaths();
+  rimraf.sync(await outputPathAbsolutePath());
 
   const compNames = await getCompNames(targetAbsolutePath);
   await rollupAllBuild(compNames);
@@ -55,12 +54,12 @@ const build = async (opts: any) => {
       rollupAllBuild(compNames);
       isED ? console.log(chalk.blue(`${eventType}组件: ${name}/${name}ED`)) : console.log(chalk.blue(`update ${name}`));
     });
-    console.log(chalk.yellow(`正在监听: ${getConfigOpts().libraryDir}`));
+    console.log(chalk.yellow(`正在监听: ${libraryDir}`));
     process.on("SIGINT", () => {
       nodeWatcher.close();
     });
-    
-  } else { 
+
+  } else {
     console.log();
     console.log(chalk.green(`🌈🍻编译完成。`));
   }
