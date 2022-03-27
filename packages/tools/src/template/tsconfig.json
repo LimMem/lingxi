@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "noImplicitAny": true,
+  },
+  "include": [
+    "src",
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "bin",
+    "template/**",
+    "package.json",
+    "tsconfig.json",
+    "*.lock",
+    "*.log",
+    "*.md"
+  ]
+}

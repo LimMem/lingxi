@@ -38,8 +38,9 @@ function getTypescriptConfig() {
     })();
   }
   return gulpTs({
-    declaration: true,
+    declaration: false,
     noImplicitAny: true,
+    rootDir: path.join(cwd, userOptions.srcDir),
   })();
 }
 
@@ -53,16 +54,18 @@ function canBabelCompile(file) {
 console.log(chalk.yellow(`clean ${userOptions.output}`));
 rimraf.sync(path.join(cwd, userOptions.output));
 
-function build(opts = {}) {
-  const { srcDir = 'src', output = 'lib' } = opts;
+function build(src, outputFile) {
+  const { srcDir, output } = userOptions;
   return gulp
-    .src([`${path.join(cwd, srcDir)}/**`])
+    .src(src)
     .pipe(
       gulpIf(
         canBabelCompile,
         through.obj(function(file, env, cb) {
           console.log(
-            chalk.green(`编译 ${file.path.replace(path.join(cwd, srcDir), '')}`)
+            chalk.green(
+              `[编译] ${file.path.replace(path.join(cwd, srcDir), '')}`
+            )
           );
           cb(null, file);
         })
@@ -83,7 +86,7 @@ function build(opts = {}) {
         })
       )
     )
-    .pipe(gulp.dest(path.join(cwd, output)));
+    .pipe(gulp.dest(outputFile ? outputFile : path.join(cwd, output)));
 }
 
 const watcherEventNameMap = {
@@ -94,7 +97,7 @@ const watcherEventNameMap = {
   unlinkDir: '删除文件夹',
 };
 
-build(userOptions).on('end', function() {
+build([`${path.join(cwd, userOptions.srcDir)}/**`]).on('end', function() {
   console.log();
   console.log(`🌈✨编译完成!`);
   if (process.send) {
@@ -110,13 +113,19 @@ build(userOptions).on('end', function() {
       const relPath = fullPath.replace(path.join(cwd, srcDir), '');
       if (!fs.existsSync(fullPath)) return;
       if (fs.statSync(fullPath).isFile()) {
-        // 'add'|'addDir'|'change'|'unlink'|'unlinkDir'
+        console.log();
         console.log(
           chalk.blueBright(`[${watcherEventNameMap[event]}] ${relPath}`)
         );
-        build({
-          ...userOptions,
-          srcDir: relPath,
+        build(
+          fullPath,
+          path.join(process.cwd(), userOptions.output, relPath, '../')
+        ).on('end', function() {
+          console.log(
+            chalk.green(
+              `[${watcherEventNameMap[event]}: ${relPath}] 编译完成✨🚀`
+            )
+          );
         });
       }
     });
