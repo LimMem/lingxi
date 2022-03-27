@@ -1,3 +1,4 @@
+import { LingXiOptions } from '../index.d'
 export default {
   libraryDir: "src/library",
   outputDir: 'dist',
@@ -15,4 +16,4 @@ export default {
     plugins: [],
     presets: []
   }
-}
+} as LingXiOptions;

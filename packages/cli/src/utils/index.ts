@@ -13,27 +13,52 @@ import { requireOrImport } from '@lingxiteam/utils';
  */
 export const getConfigOpts: GetConfigOptsFunction = async () => {
   const path = getConfigFile();
-  if (!path) {
+  if (!fs.existsSync(path)) {
     return defaultConfig;
   }
   // TODO: 后续支持config es导入。暂时不作处理
   const userConfig = await requireOrImport(path) || {};
+  const { editor, engine } = userConfig.libraryDir || {}
+
   return {
     ...defaultConfig,
-    ...userConfig
+    ...userConfig,
+    libraryDir: {
+      editor: editor || defaultConfig.libraryDir.editor,
+      engine: engine || defaultConfig.libraryDir.engine
+    }
   }
 };
+
+
+/**
+ * 获取组件的真实路径
+ * @param dirName 组件名称
+ * @returns 
+ */
+export const getDefaultFile = (dirName) => {
+  return ['index.ts', 'index.js', 'index.tsx', 'index.jsx'].find(it => fs.existsSync(join(dirName, it)));
+}
+
+/**
+ * 通过文件夹路径 获取所有子文件夹
+ * @param dir 
+ */
+export const getSubDirsByDir = async (dir: string) => {
+  const compNames = fs.readdirSync(dir, { encoding: 'utf8' });
+  return compNames.filter(comp => getDefaultFile(join(dir, comp)));
+}
+
 
 /**
  * 库目标绝对路径
  */
 export const targetAbsolutePaths = async () => {
   const { libraryDir } = await getConfigOpts();
-  let target = libraryDir as string[];
-  if (typeof libraryDir === 'string') {
-    target = [libraryDir];
-  }
-  return target.map(dirName => winPath(join(cwd(), dirName)));
+  return {
+    engine: winPath(join(cwd(), libraryDir.engine)),
+    editor: winPath(join(cwd(), libraryDir.editor))
+  };
 };
 
 /**
@@ -45,15 +70,6 @@ export const outputPathAbsolutePath = async () => {
     join(cwd(), outputDir)
   );
 };
-
-// /**
-//  * 放弃编译的文件夹
-//  */
-// export const excludeDirAbsolutePaths = () => { 
-//   return (getConfigOpts().exclude || []).map(exc => winPath(
-//     join(cwd(), exc)
-//   ));
-// };
 
 /**
  * tsconfig.json 路径
@@ -97,4 +113,12 @@ export const getOutputFile = async ({
   const { platform } = await getConfigOpts();
   const outputFilePrefix = getOutputFilePrefix(isEditor, compName);
   return `${outputFilePrefix}.${platform}${isMin ? '.min' : ""}.js`;
+};
+
+export const watcherEventNameMap = {
+  add: '新增文件',
+  addDir: '新增文件夹',
+  change: '修改',
+  unlink: '删除文件',
+  unlinkDir: '删除文件夹',
 };

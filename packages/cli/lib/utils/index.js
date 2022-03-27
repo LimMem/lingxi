@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.tsconfigPath = exports.targetAbsolutePaths = exports.pkgPath = exports.pkgInfo = exports.outputPathAbsolutePath = exports.getOutputFilePrefix = exports.getOutputFile = exports.getConfigOpts = void 0;
+exports.watcherEventNameMap = exports.tsconfigPath = exports.targetAbsolutePaths = exports.pkgPath = exports.pkgInfo = exports.outputPathAbsolutePath = exports.getSubDirsByDir = exports.getOutputFilePrefix = exports.getOutputFile = exports.getDefaultFile = exports.getConfigOpts = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -37,14 +37,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
  */
 var getConfigOpts = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-    var path, userConfig;
+    var path, userConfig, _ref2, editor, engine;
+
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             path = (0, _getConfig.getConfigFile)();
 
-            if (path) {
+            if (_fs["default"].existsSync(path)) {
               _context.next = 3;
               break;
             }
@@ -67,9 +68,15 @@ var getConfigOpts = /*#__PURE__*/function () {
 
           case 8:
             userConfig = _context.t0;
-            return _context.abrupt("return", _objectSpread(_objectSpread({}, _defaultConfig["default"]), userConfig));
+            _ref2 = userConfig.libraryDir || {}, editor = _ref2.editor, engine = _ref2.engine;
+            return _context.abrupt("return", _objectSpread(_objectSpread(_objectSpread({}, _defaultConfig["default"]), userConfig), {}, {
+              libraryDir: {
+                editor: editor || _defaultConfig["default"].libraryDir.editor,
+                engine: engine || _defaultConfig["default"].libraryDir.engine
+              }
+            }));
 
-          case 10:
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -82,37 +89,42 @@ var getConfigOpts = /*#__PURE__*/function () {
   };
 }();
 /**
- * 库目标绝对路径
+ * 获取组件的真实路径
+ * @param dirName 组件名称
+ * @returns
  */
 
 
 exports.getConfigOpts = getConfigOpts;
 
-var targetAbsolutePaths = /*#__PURE__*/function () {
-  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2() {
-    var _yield$getConfigOpts, libraryDir, target;
+var getDefaultFile = function getDefaultFile(dirName) {
+  return ['index.ts', 'index.js', 'index.tsx', 'index.jsx'].find(function (it) {
+    return _fs["default"].existsSync((0, _path.join)(dirName, it));
+  });
+};
+/**
+ * 通过文件夹路径 获取所有子文件夹
+ * @param dir
+ */
 
+
+exports.getDefaultFile = getDefaultFile;
+
+var getSubDirsByDir = /*#__PURE__*/function () {
+  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(dir) {
+    var compNames;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
-            return getConfigOpts();
-
-          case 2:
-            _yield$getConfigOpts = _context2.sent;
-            libraryDir = _yield$getConfigOpts.libraryDir;
-            target = libraryDir;
-
-            if (typeof libraryDir === 'string') {
-              target = [libraryDir];
-            }
-
-            return _context2.abrupt("return", target.map(function (dirName) {
-              return (0, _winPath["default"])((0, _path.join)((0, _tool.cwd)(), dirName));
+            compNames = _fs["default"].readdirSync(dir, {
+              encoding: 'utf8'
+            });
+            return _context2.abrupt("return", compNames.filter(function (comp) {
+              return getDefaultFile((0, _path.join)(dir, comp));
             }));
 
-          case 7:
+          case 2:
           case "end":
             return _context2.stop();
         }
@@ -120,8 +132,46 @@ var targetAbsolutePaths = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
+  return function getSubDirsByDir(_x) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+/**
+ * 库目标绝对路径
+ */
+
+
+exports.getSubDirsByDir = getSubDirsByDir;
+
+var targetAbsolutePaths = /*#__PURE__*/function () {
+  var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3() {
+    var _yield$getConfigOpts, libraryDir;
+
+    return _regenerator["default"].wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return getConfigOpts();
+
+          case 2:
+            _yield$getConfigOpts = _context3.sent;
+            libraryDir = _yield$getConfigOpts.libraryDir;
+            return _context3.abrupt("return", {
+              engine: (0, _winPath["default"])((0, _path.join)((0, _tool.cwd)(), libraryDir.engine)),
+              editor: (0, _winPath["default"])((0, _path.join)((0, _tool.cwd)(), libraryDir.editor))
+            });
+
+          case 5:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
   return function targetAbsolutePaths() {
-    return _ref2.apply(this, arguments);
+    return _ref4.apply(this, arguments);
   };
 }();
 /**
@@ -132,41 +182,33 @@ var targetAbsolutePaths = /*#__PURE__*/function () {
 exports.targetAbsolutePaths = targetAbsolutePaths;
 
 var outputPathAbsolutePath = /*#__PURE__*/function () {
-  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3() {
+  var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4() {
     var _yield$getConfigOpts2, outputDir;
 
-    return _regenerator["default"].wrap(function _callee3$(_context3) {
+    return _regenerator["default"].wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.next = 2;
+            _context4.next = 2;
             return getConfigOpts();
 
           case 2:
-            _yield$getConfigOpts2 = _context3.sent;
+            _yield$getConfigOpts2 = _context4.sent;
             outputDir = _yield$getConfigOpts2.outputDir;
-            return _context3.abrupt("return", (0, _winPath["default"])((0, _path.join)((0, _tool.cwd)(), outputDir)));
+            return _context4.abrupt("return", (0, _winPath["default"])((0, _path.join)((0, _tool.cwd)(), outputDir)));
 
           case 5:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3);
+    }, _callee4);
   }));
 
   return function outputPathAbsolutePath() {
-    return _ref3.apply(this, arguments);
+    return _ref5.apply(this, arguments);
   };
-}(); // /**
-//  * 放弃编译的文件夹
-//  */
-// export const excludeDirAbsolutePaths = () => { 
-//   return (getConfigOpts().exclude || []).map(exc => winPath(
-//     join(cwd(), exc)
-//   ));
-// };
-
+}();
 /**
  * tsconfig.json 路径
  */
@@ -220,34 +262,42 @@ var getOutputFilePrefix = function getOutputFilePrefix(isEditor, compName) {
 exports.getOutputFilePrefix = getOutputFilePrefix;
 
 var getOutputFile = /*#__PURE__*/function () {
-  var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_ref4) {
-    var _ref4$isMin, isMin, compName, isEditor, _yield$getConfigOpts3, platform, outputFilePrefix;
+  var _ref7 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_ref6) {
+    var _ref6$isMin, isMin, compName, isEditor, _yield$getConfigOpts3, platform, outputFilePrefix;
 
-    return _regenerator["default"].wrap(function _callee4$(_context4) {
+    return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _ref4$isMin = _ref4.isMin, isMin = _ref4$isMin === void 0 ? false : _ref4$isMin, compName = _ref4.compName, isEditor = _ref4.isEditor;
-            _context4.next = 3;
+            _ref6$isMin = _ref6.isMin, isMin = _ref6$isMin === void 0 ? false : _ref6$isMin, compName = _ref6.compName, isEditor = _ref6.isEditor;
+            _context5.next = 3;
             return getConfigOpts();
 
           case 3:
-            _yield$getConfigOpts3 = _context4.sent;
+            _yield$getConfigOpts3 = _context5.sent;
             platform = _yield$getConfigOpts3.platform;
             outputFilePrefix = getOutputFilePrefix(isEditor, compName);
-            return _context4.abrupt("return", "".concat(outputFilePrefix, ".").concat(platform).concat(isMin ? '.min' : "", ".js"));
+            return _context5.abrupt("return", "".concat(outputFilePrefix, ".").concat(platform).concat(isMin ? '.min' : "", ".js"));
 
           case 7:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4);
+    }, _callee5);
   }));
 
-  return function getOutputFile(_x) {
-    return _ref5.apply(this, arguments);
+  return function getOutputFile(_x2) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
 exports.getOutputFile = getOutputFile;
+var watcherEventNameMap = {
+  add: '新增文件',
+  addDir: '新增文件夹',
+  change: '修改',
+  unlink: '删除文件',
+  unlinkDir: '删除文件夹'
+};
+exports.watcherEventNameMap = watcherEventNameMap;

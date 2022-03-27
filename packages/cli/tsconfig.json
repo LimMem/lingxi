@@ -5,7 +5,8 @@
     "module": "esnext",
     "target": "esnext",
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "rootDir": "src"
   },
   "include": [
     "./src",

@@ -23,195 +23,40 @@ var _utils = require("../utils");
 
 var _winPath = _interopRequireDefault(require("../utils/winPath"));
 
+var _dayjs = _interopRequireDefault(require("dayjs"));
+
 var _rollupPlugins = require("./rollupPlugins");
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
-var _default = /*#__PURE__*/function () {
-  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(opts) {
-    var compName, outputDir, optsPath, isEditor, _yield$getConfigOpts, outputType, globals, external, namePrefix, name, footer, minFile;
+var getDefaultExternal = /*#__PURE__*/function () {
+  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+    var _yield$getConfigOpts, platform;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            compName = opts.compName, outputDir = opts.outputDir, optsPath = opts.path, isEditor = opts.isEditor;
-            _context.next = 3;
+            _context.next = 2;
             return (0, _utils.getConfigOpts)();
 
-          case 3:
+          case 2:
             _yield$getConfigOpts = _context.sent;
-            outputType = _yield$getConfigOpts.outputType;
-            globals = _yield$getConfigOpts.globals;
-            external = _yield$getConfigOpts.external;
-            namePrefix = _yield$getConfigOpts.namePrefix;
-            name = "".concat(namePrefix).concat(compName);
-            footer = "window.".concat(name, "={};\nwindow.").concat(name, ".__VERSION__=").concat(JSON.stringify((0, _utils.pkgInfo)().version), ";\nwindow.").concat(name, ".__BUILD_DATE__=").concat(JSON.stringify(new Date()));
-            minFile = outputType === 'all' || outputType === 'production';
-            _context.t0 = [];
-            _context.t1 = _toConsumableArray2["default"];
+            platform = _yield$getConfigOpts.platform;
 
-            if (!(outputType === 'all' || outputType === 'development')) {
-              _context.next = 44;
+            if (!(platform === 'app')) {
+              _context.next = 6;
               break;
             }
 
-            _context.t3 = optsPath;
-            _context.t4 = [].concat((0, _toConsumableArray2["default"])(Object.keys((0, _utils.pkgInfo)().peerDependencies || {})), (0, _toConsumableArray2["default"])(external));
-            _context.t5 = [];
-            _context.t6 = _toConsumableArray2["default"];
-            _context.next = 20;
-            return (0, _rollupPlugins.getPlugins)({
-              minFile: false,
-              isTypeScript: ['.ts', '.tsx'].includes(_path["default"].extname(optsPath)),
-              name: name
-            });
+            return _context.abrupt("return", ['react', 'antd-mobile', 'classnames', '@alitajs/dform', '@alitajs/antd-mobile-plus']);
 
-          case 20:
-            _context.t7 = _context.sent;
-            _context.t8 = (0, _context.t6)(_context.t7);
-            _context.t9 = [(0, _pluginCommonjs["default"])({
-              include: /node_modules/
-            })];
-            _context.t10 = _context.t5.concat.call(_context.t5, _context.t8, _context.t9);
-            _context.t11 = _objectSpread({
-              'react': "React"
-            }, globals || {});
-            _context.t12 = name;
-            _context.t13 = footer;
-            _context.t14 = _winPath["default"];
-            _context.t15 = _path["default"];
-            _context.t16 = outputDir;
-            _context.t17 = compName;
-            _context.next = 33;
-            return (0, _utils.getOutputFile)({
-              isMin: false,
-              compName: compName,
-              isEditor: isEditor
-            });
+          case 6:
+            return _context.abrupt("return", ['react', 'antd', 'classnames']);
 
-          case 33:
-            _context.t18 = _context.sent;
-            _context.t19 = _context.t15.join.call(_context.t15, _context.t16, _context.t17, _context.t18);
-            _context.t20 = (0, _context.t14)(_context.t19);
-            _context.t21 = {
-              format: "umd",
-              sourcemap: false,
-              globals: _context.t11,
-              name: _context.t12,
-              footer: _context.t13,
-              file: _context.t20
-            };
-            _context.next = 39;
-            return (0, _utils.getOutputFile)({
-              isMin: false,
-              compName: compName,
-              isEditor: isEditor
-            });
-
-          case 39:
-            _context.t22 = _context.sent;
-            _context.t23 = {
-              input: _context.t3,
-              external: _context.t4,
-              plugins: _context.t10,
-              output: _context.t21,
-              exportFileName: _context.t22
-            };
-            _context.t2 = [_context.t23];
-            _context.next = 45;
-            break;
-
-          case 44:
-            _context.t2 = [];
-
-          case 45:
-            _context.t24 = _context.t2;
-            _context.t25 = (0, _context.t1)(_context.t24);
-            _context.t26 = _toConsumableArray2["default"];
-
-            if (!minFile) {
-              _context.next = 79;
-              break;
-            }
-
-            _context.t28 = optsPath;
-            _context.t29 = [].concat((0, _toConsumableArray2["default"])(Object.keys((0, _utils.pkgInfo)().peerDependencies || {})), (0, _toConsumableArray2["default"])(external));
-            _context.t30 = [];
-            _context.t31 = _toConsumableArray2["default"];
-            _context.next = 55;
-            return (0, _rollupPlugins.getPlugins)({
-              minFile: minFile,
-              isTypeScript: ['.ts', '.tsx'].includes(_path["default"].extname(optsPath)),
-              name: name
-            });
-
-          case 55:
-            _context.t32 = _context.sent;
-            _context.t33 = (0, _context.t31)(_context.t32);
-            _context.t34 = [(0, _pluginCommonjs["default"])({
-              include: /node_modules/
-            })];
-            _context.t35 = _context.t30.concat.call(_context.t30, _context.t33, _context.t34);
-            _context.t36 = _objectSpread({
-              'react': "React"
-            }, globals || {});
-            _context.t37 = name;
-            _context.t38 = footer;
-            _context.t39 = _winPath["default"];
-            _context.t40 = _path["default"];
-            _context.t41 = outputDir;
-            _context.t42 = compName;
-            _context.next = 68;
-            return (0, _utils.getOutputFile)({
-              isMin: true,
-              compName: compName,
-              isEditor: isEditor
-            });
-
-          case 68:
-            _context.t43 = _context.sent;
-            _context.t44 = _context.t40.join.call(_context.t40, _context.t41, _context.t42, _context.t43);
-            _context.t45 = (0, _context.t39)(_context.t44);
-            _context.t46 = {
-              format: "umd",
-              sourcemap: false,
-              globals: _context.t36,
-              name: _context.t37,
-              footer: _context.t38,
-              file: _context.t45
-            };
-            _context.next = 74;
-            return (0, _utils.getOutputFile)({
-              isMin: true,
-              compName: compName,
-              isEditor: isEditor
-            });
-
-          case 74:
-            _context.t47 = _context.sent;
-            _context.t48 = {
-              input: _context.t28,
-              external: _context.t29,
-              plugins: _context.t35,
-              output: _context.t46,
-              exportFileName: _context.t47
-            };
-            _context.t27 = [_context.t48];
-            _context.next = 80;
-            break;
-
-          case 79:
-            _context.t27 = [];
-
-          case 80:
-            _context.t49 = _context.t27;
-            _context.t50 = (0, _context.t26)(_context.t49);
-            return _context.abrupt("return", _context.t0.concat.call(_context.t0, _context.t25, _context.t50));
-
-          case 83:
+          case 7:
           case "end":
             return _context.stop();
         }
@@ -219,8 +64,289 @@ var _default = /*#__PURE__*/function () {
     }, _callee);
   }));
 
-  return function (_x) {
+  return function getDefaultExternal() {
     return _ref.apply(this, arguments);
+  };
+}();
+
+var getDefaultGlobals = /*#__PURE__*/function () {
+  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2() {
+    var _yield$getConfigOpts2, platform;
+
+    return _regenerator["default"].wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return (0, _utils.getConfigOpts)();
+
+          case 2:
+            _yield$getConfigOpts2 = _context2.sent;
+            platform = _yield$getConfigOpts2.platform;
+
+            if (!(platform === 'app')) {
+              _context2.next = 6;
+              break;
+            }
+
+            return _context2.abrupt("return", {
+              'react': "React",
+              'antd-mobile': "AntdMobile",
+              'classnames': "classNames",
+              '@alitajs/dform': "Dform",
+              '@alitajs/antd-mobile-plus': "AntdMobilePlus"
+            });
+
+          case 6:
+            return _context2.abrupt("return", {
+              'react': "React",
+              'antd': "Antd",
+              'classnames': "classNames"
+            });
+
+          case 7:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function getDefaultGlobals() {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+var _default = /*#__PURE__*/function () {
+  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(opts) {
+    var compName, outputDir, optsPath, isEditor, _yield$getConfigOpts3, outputType, globals, external, namePrefix, name, footer, minFile;
+
+    return _regenerator["default"].wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            compName = opts.compName, outputDir = opts.outputDir, optsPath = opts.path, isEditor = opts.isEditor;
+            _context3.next = 3;
+            return (0, _utils.getConfigOpts)();
+
+          case 3:
+            _yield$getConfigOpts3 = _context3.sent;
+            outputType = _yield$getConfigOpts3.outputType;
+            globals = _yield$getConfigOpts3.globals;
+            external = _yield$getConfigOpts3.external;
+            namePrefix = _yield$getConfigOpts3.namePrefix;
+            name = "".concat(namePrefix).concat(compName);
+            footer = "window.".concat(name, "={\n  __VERSION__: ").concat(JSON.stringify((0, _utils.pkgInfo)().version), ",\n  __BUILD_DATE__: ").concat(JSON.stringify((0, _dayjs["default"])(new Date()).format('YYYY-MM-DD HH:mm:ss')), "\n};");
+            minFile = outputType === 'all' || outputType === 'production';
+            _context3.t0 = [];
+            _context3.t1 = _toConsumableArray2["default"];
+
+            if (!(outputType === 'all' || outputType === 'development')) {
+              _context3.next = 60;
+              break;
+            }
+
+            _context3.t3 = optsPath;
+            _context3.t4 = [];
+            _context3.t5 = _toConsumableArray2["default"];
+            _context3.next = 19;
+            return getDefaultExternal();
+
+          case 19:
+            _context3.t6 = _context3.sent;
+            _context3.t7 = (0, _context3.t5)(_context3.t6);
+            _context3.t8 = (0, _toConsumableArray2["default"])(Object.keys((0, _utils.pkgInfo)().peerDependencies || {}));
+            _context3.t9 = (0, _toConsumableArray2["default"])(external);
+            _context3.t10 = _context3.t4.concat.call(_context3.t4, _context3.t7, _context3.t8, _context3.t9);
+            _context3.t11 = [];
+            _context3.t12 = _toConsumableArray2["default"];
+            _context3.next = 28;
+            return (0, _rollupPlugins.getPlugins)({
+              minFile: false,
+              isTypeScript: ['.ts', '.tsx'].includes(_path["default"].extname(optsPath)),
+              name: name
+            });
+
+          case 28:
+            _context3.t13 = _context3.sent;
+            _context3.t14 = (0, _context3.t12)(_context3.t13);
+            _context3.t15 = [(0, _pluginCommonjs["default"])({
+              include: /node_modules/
+            })];
+            _context3.t16 = _context3.t11.concat.call(_context3.t11, _context3.t14, _context3.t15);
+            _context3.t17 = _objectSpread;
+            _context3.t18 = _objectSpread;
+            _context3.t19 = {};
+            _context3.next = 37;
+            return getDefaultGlobals();
+
+          case 37:
+            _context3.t20 = _context3.sent;
+            _context3.t21 = (0, _context3.t18)(_context3.t19, _context3.t20);
+            _context3.t22 = globals || {};
+            _context3.t23 = (0, _context3.t17)(_context3.t21, _context3.t22);
+            _context3.t24 = name;
+            _context3.t25 = footer;
+            _context3.t26 = _winPath["default"];
+            _context3.t27 = _path["default"];
+            _context3.t28 = outputDir;
+            _context3.t29 = compName;
+            _context3.next = 49;
+            return (0, _utils.getOutputFile)({
+              isMin: false,
+              compName: compName,
+              isEditor: isEditor
+            });
+
+          case 49:
+            _context3.t30 = _context3.sent;
+            _context3.t31 = _context3.t27.join.call(_context3.t27, _context3.t28, _context3.t29, _context3.t30);
+            _context3.t32 = (0, _context3.t26)(_context3.t31);
+            _context3.t33 = {
+              format: "umd",
+              sourcemap: false,
+              globals: _context3.t23,
+              name: _context3.t24,
+              footer: _context3.t25,
+              file: _context3.t32
+            };
+            _context3.next = 55;
+            return (0, _utils.getOutputFile)({
+              isMin: false,
+              compName: compName,
+              isEditor: isEditor
+            });
+
+          case 55:
+            _context3.t34 = _context3.sent;
+            _context3.t35 = {
+              input: _context3.t3,
+              external: _context3.t10,
+              plugins: _context3.t16,
+              output: _context3.t33,
+              exportFileName: _context3.t34,
+              min: false
+            };
+            _context3.t2 = [_context3.t35];
+            _context3.next = 61;
+            break;
+
+          case 60:
+            _context3.t2 = [];
+
+          case 61:
+            _context3.t36 = _context3.t2;
+            _context3.t37 = (0, _context3.t1)(_context3.t36);
+            _context3.t38 = _toConsumableArray2["default"];
+
+            if (!minFile) {
+              _context3.next = 111;
+              break;
+            }
+
+            _context3.t40 = optsPath;
+            _context3.t41 = [];
+            _context3.t42 = _toConsumableArray2["default"];
+            _context3.next = 70;
+            return getDefaultExternal();
+
+          case 70:
+            _context3.t43 = _context3.sent;
+            _context3.t44 = (0, _context3.t42)(_context3.t43);
+            _context3.t45 = (0, _toConsumableArray2["default"])(Object.keys((0, _utils.pkgInfo)().peerDependencies || {}));
+            _context3.t46 = (0, _toConsumableArray2["default"])(external);
+            _context3.t47 = _context3.t41.concat.call(_context3.t41, _context3.t44, _context3.t45, _context3.t46);
+            _context3.t48 = [];
+            _context3.t49 = _toConsumableArray2["default"];
+            _context3.next = 79;
+            return (0, _rollupPlugins.getPlugins)({
+              minFile: minFile,
+              isTypeScript: ['.ts', '.tsx'].includes(_path["default"].extname(optsPath)),
+              name: name
+            });
+
+          case 79:
+            _context3.t50 = _context3.sent;
+            _context3.t51 = (0, _context3.t49)(_context3.t50);
+            _context3.t52 = [(0, _pluginCommonjs["default"])({
+              include: /node_modules/
+            })];
+            _context3.t53 = _context3.t48.concat.call(_context3.t48, _context3.t51, _context3.t52);
+            _context3.t54 = _objectSpread;
+            _context3.t55 = _objectSpread;
+            _context3.t56 = {};
+            _context3.next = 88;
+            return getDefaultGlobals();
+
+          case 88:
+            _context3.t57 = _context3.sent;
+            _context3.t58 = (0, _context3.t55)(_context3.t56, _context3.t57);
+            _context3.t59 = globals || {};
+            _context3.t60 = (0, _context3.t54)(_context3.t58, _context3.t59);
+            _context3.t61 = name;
+            _context3.t62 = footer;
+            _context3.t63 = _winPath["default"];
+            _context3.t64 = _path["default"];
+            _context3.t65 = outputDir;
+            _context3.t66 = compName;
+            _context3.next = 100;
+            return (0, _utils.getOutputFile)({
+              isMin: true,
+              compName: compName,
+              isEditor: isEditor
+            });
+
+          case 100:
+            _context3.t67 = _context3.sent;
+            _context3.t68 = _context3.t64.join.call(_context3.t64, _context3.t65, _context3.t66, _context3.t67);
+            _context3.t69 = (0, _context3.t63)(_context3.t68);
+            _context3.t70 = {
+              format: "umd",
+              sourcemap: false,
+              globals: _context3.t60,
+              name: _context3.t61,
+              footer: _context3.t62,
+              file: _context3.t69
+            };
+            _context3.next = 106;
+            return (0, _utils.getOutputFile)({
+              isMin: true,
+              compName: compName,
+              isEditor: isEditor
+            });
+
+          case 106:
+            _context3.t71 = _context3.sent;
+            _context3.t72 = {
+              min: true,
+              input: _context3.t40,
+              external: _context3.t47,
+              plugins: _context3.t53,
+              output: _context3.t70,
+              exportFileName: _context3.t71
+            };
+            _context3.t39 = [_context3.t72];
+            _context3.next = 112;
+            break;
+
+          case 111:
+            _context3.t39 = [];
+
+          case 112:
+            _context3.t73 = _context3.t39;
+            _context3.t74 = (0, _context3.t38)(_context3.t73);
+            return _context3.abrupt("return", _context3.t0.concat.call(_context3.t0, _context3.t37, _context3.t74));
+
+          case 115:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function (_x) {
+    return _ref3.apply(this, arguments);
   };
 }();
 

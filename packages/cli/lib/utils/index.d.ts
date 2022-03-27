@@ -5,9 +5,23 @@ import { GetConfigOptsFunction } from '..';
  */
 export declare const getConfigOpts: GetConfigOptsFunction;
 /**
+ * 获取组件的真实路径
+ * @param dirName 组件名称
+ * @returns
+ */
+export declare const getDefaultFile: (dirName: any) => string;
+/**
+ * 通过文件夹路径 获取所有子文件夹
+ * @param dir
+ */
+export declare const getSubDirsByDir: (dir: string) => Promise<string[]>;
+/**
  * 库目标绝对路径
  */
-export declare const targetAbsolutePaths: () => Promise<string[]>;
+export declare const targetAbsolutePaths: () => Promise<{
+    engine: string;
+    editor: string;
+}>;
 /**
  * 输出文件夹
  */
@@ -41,3 +55,10 @@ export declare const getOutputFile: ({ isMin, compName, isEditor }: {
     compName: any;
     isEditor: any;
 }) => Promise<string>;
+export declare const watcherEventNameMap: {
+    add: string;
+    addDir: string;
+    change: string;
+    unlink: string;
+    unlinkDir: string;
+};
