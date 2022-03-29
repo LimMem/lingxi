@@ -20,6 +20,7 @@ switch (cliType) {
     require('../lib/build')({
       watch: args.watch || args.w,
       compName: args.compName,
+      server: args.server || args.s,
     });
     break;
   case 'create':

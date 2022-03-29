@@ -8,14 +8,11 @@
     "watch:all": "lingxi build --watch",
     "server": "lingxi build --watch --server"
   },
-  "peerDependencies": {
+  "dependencies": {
+    "antd-mobile": "2.3.4",
     "react": "17.0.2"
   },
-  "dependencies": {
-    "antd-mobile": "2.3.4"
-  },
   "devDependencies": {
-    "father-build": "^1.21.2",
-    "react": "^17.0.2"
+    "father-build": "^1.21.2"
   }
 }

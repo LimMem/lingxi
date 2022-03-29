@@ -119,13 +119,13 @@ var getDefaultGlobals = /*#__PURE__*/function () {
 
 var _default = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(opts) {
-    var compName, outputDir, optsPath, isEditor, _yield$getConfigOpts3, outputType, globals, external, namePrefix, name, footer, minFile;
+    var compName, outputDir, optsPath, isEditor, server, _yield$getConfigOpts3, outputType, globals, external, namePrefix, name, footer, minFile;
 
     return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            compName = opts.compName, outputDir = opts.outputDir, optsPath = opts.path, isEditor = opts.isEditor;
+            compName = opts.compName, outputDir = opts.outputDir, optsPath = opts.path, isEditor = opts.isEditor, server = opts.server;
             _context3.next = 3;
             return (0, _utils.getConfigOpts)();
 
@@ -162,9 +162,11 @@ var _default = /*#__PURE__*/function () {
             _context3.t12 = _toConsumableArray2["default"];
             _context3.next = 28;
             return (0, _rollupPlugins.getPlugins)({
+              server: server,
               minFile: false,
               isTypeScript: ['.ts', '.tsx'].includes(_path["default"].extname(optsPath)),
-              name: name
+              name: name,
+              compName: compName
             });
 
           case 28:
@@ -260,9 +262,11 @@ var _default = /*#__PURE__*/function () {
             _context3.t49 = _toConsumableArray2["default"];
             _context3.next = 79;
             return (0, _rollupPlugins.getPlugins)({
+              server: server,
               minFile: minFile,
               isTypeScript: ['.ts', '.tsx'].includes(_path["default"].extname(optsPath)),
-              name: name
+              name: name,
+              compName: compName
             });
 
           case 79:

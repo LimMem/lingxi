@@ -1,15 +1,8 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "node",
-    "jsx": "react",
-  },
+  "extends": "../tsconfig.json",
   "include": [
     "./src",
-    "./typings.d.ts"
+    "./typings.d"
   ],
   "typings": "./typings.d.ts",
   "exclude": [

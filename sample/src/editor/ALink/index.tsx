@@ -1,5 +1,6 @@
 import React from 'react';
 import aLinkConfig from './aLink';
+import abc from './apbc';
 
 export interface MyALinkEDProps {
   name?: string;
@@ -18,6 +19,9 @@ const ALinkED: React.FC<MyALinkEDProps> = props => {
   const a = async params => {
     const b = await requset();
   };
+
+  a({ a: '123' });
+
   return <a {...restProps}>{children}</a>;
 };
 

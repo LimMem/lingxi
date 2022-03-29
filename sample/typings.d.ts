@@ -1,6 +1,7 @@
 export { }
 
 declare module "*.less";
+declare module "*.svg";
 
 declare global {
   interface Window {

@@ -42,7 +42,7 @@ const getDefaultGlobals = async () => {
 }
 
 export default async (opts) => {
-  const { compName, outputDir, path: optsPath, isEditor } = opts;
+  const { compName, outputDir, path: optsPath, isEditor, server } = opts;
   const { outputType, globals, external, namePrefix } = await getConfigOpts();
   const name = `${namePrefix}${compName}`;
   const footer = `window.${name}={
@@ -61,9 +61,11 @@ export default async (opts) => {
         ],
         plugins: [
           ...await getPlugins({
+            server,
             minFile: false,
             isTypeScript: ['.ts', '.tsx'].includes(path.extname(optsPath)),
-            name
+            name,
+            compName,
           }),
           commonjs({
             include: /node_modules/
@@ -104,9 +106,11 @@ export default async (opts) => {
           ],
           plugins: [
             ...await getPlugins({
+              server,
               minFile,
               isTypeScript: ['.ts', '.tsx'].includes(path.extname(optsPath)),
-              name
+              name,
+              compName,
             }),
             commonjs({
               include: /node_modules/

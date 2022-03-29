@@ -5,9 +5,12 @@ export interface ButtonEditorProps {
   name?: string;
 }
 
+const a = 100;
+
 const prefixCls = 'btn-editor';
 const Button: React.FC<ButtonEditorProps> = props => {
   const [state, setState] = useState(0);
+  console.log(window);
   return (
     <div
       className={prefixCls}

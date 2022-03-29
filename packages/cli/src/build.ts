@@ -13,10 +13,11 @@ import lodash from 'lodash';
  * 编译单个组件
  * @param compInfo 
  */
-const buildCompName = async (compInfo) => {
+const buildCompName = async (compInfo, server = false) => {
   const opts = await rollupOpts({
     ...compInfo,
     outputDir: await outputPathAbsolutePath(),
+    server
   });
   for (let j = 0; j < opts.length; j++) {
     const { output, exportFileName, min, ...input } = opts[j];
@@ -32,12 +33,12 @@ const buildCompName = async (compInfo) => {
  * 编译指定组件
  * @param compName 编译指定组件
  */
-async function compileCompByCompName(compName) {
+async function compileCompByCompName(compName, server) {
   const compInfos = await getCompileInfo(compName);
   for (let index = 0; index < Object.keys(compInfos).length; index++) {
     const key = Object.keys(compInfos)[index];
     const compInfo = compInfos[key];
-    await buildCompName(compInfo);
+    await buildCompName(compInfo, server);
   }
 };
 
@@ -80,7 +81,7 @@ const build = async (opts: any) => {
   }
   for (let index = 0; index < compNames.length; index++) {
     const name = compNames[index];
-    await compileCompByCompName(name);
+    await compileCompByCompName(name, server);
   }
 
   if (w) {
@@ -103,7 +104,7 @@ const build = async (opts: any) => {
       }
     }
 
-    console.log(watchDir);
+    console.log();
     console.log(chalk.blue(`开始监听[${watchDir.editor}、${watchDir.engine}]目录`));
     const watcher = chokidar.watch([watchDir.absoluteEditor, watchDir.absoluteEngine], {
       ignoreInitial: true,

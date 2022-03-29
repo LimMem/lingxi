@@ -1,0 +1,58 @@
+@import '~antd-mobile/lib/style/index.less';
+
+@prefixCls: lcdp-blockselect;
+
+.@{prefixCls}-blockSelectWrapper {
+  overflow: auto;
+}
+
+.@{prefixCls}-blockSelect {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.@{prefixCls}-placeholder {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 45 * @hd;
+  color: rgba(28, 36, 46, 0.45);
+  font-size: 12 * @hd;
+  background: #f2f3f5;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.@{prefixCls}-content {
+  flex: 1;
+  width: auto;
+}
+
+.@{prefixCls}-showIcon {
+  border-radius: 8 * @hd;
+}
+
+.@{prefixCls}-icon {
+  width: 22 * @hd;
+  height: 22 * @hd;
+  margin-right: 16 * @hd;
+  margin-left: 16 * @hd;
+  font-size: 16 * @hd;
+
+  svg {
+    width: 22 * @hd;
+    height: 22 * @hd;
+  }
+}
+
+.@{prefixCls}-nobox {
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 3 * @hd;
+}
+
+.@{prefixCls}-select {
+  color: #1677ff;
+  border: 1px solid #1677ff;
+}

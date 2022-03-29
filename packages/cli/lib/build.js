@@ -42,67 +42,83 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
  */
 var buildCompName = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(compInfo) {
-    var opts, j, _opts$j, output, exportFileName, min, input, bundle, _yield$getConfigOpts, _yield$getConfigOpts$, editor, engine;
+    var server,
+        opts,
+        j,
+        _opts$j,
+        output,
+        exportFileName,
+        min,
+        input,
+        bundle,
+        _yield$getConfigOpts,
+        _yield$getConfigOpts$,
+        editor,
+        engine,
+        _args = arguments;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            server = _args.length > 1 && _args[1] !== undefined ? _args[1] : false;
             _context.t0 = _rollupOptions["default"];
             _context.t1 = _objectSpread;
             _context.t2 = _objectSpread({}, compInfo);
             _context.t3 = {};
-            _context.next = 6;
+            _context.next = 7;
             return (0, _utils.outputPathAbsolutePath)();
 
-          case 6:
+          case 7:
             _context.t4 = _context.sent;
-            _context.t5 = {
-              outputDir: _context.t4
+            _context.t5 = server;
+            _context.t6 = {
+              outputDir: _context.t4,
+              server: _context.t5
             };
-            _context.t6 = (0, _context.t1)(_context.t2, _context.t3, _context.t5);
-            _context.next = 11;
-            return (0, _context.t0)(_context.t6);
+            _context.t7 = (0, _context.t1)(_context.t2, _context.t3, _context.t6);
+            _context.next = 13;
+            return (0, _context.t0)(_context.t7);
 
-          case 11:
+          case 13:
             opts = _context.sent;
             j = 0;
 
-          case 13:
+          case 15:
             if (!(j < opts.length)) {
-              _context.next = 30;
+              _context.next = 32;
               break;
             }
 
             _opts$j = opts[j], output = _opts$j.output, exportFileName = _opts$j.exportFileName, min = _opts$j.min, input = (0, _objectWithoutProperties2["default"])(_opts$j, _excluded); // 开始编译
 
-            _context.next = 17;
+            _context.next = 19;
             return (0, _rollup.rollup)(input);
 
-          case 17:
+          case 19:
             bundle = _context.sent;
-            _context.next = 20;
+            _context.next = 22;
             return bundle.write(output
             /** 类型校验错误 */
             );
 
-          case 20:
-            _context.next = 22;
+          case 22:
+            _context.next = 24;
             return (0, _utils.getConfigOpts)();
 
-          case 22:
+          case 24:
             _yield$getConfigOpts = _context.sent;
             _yield$getConfigOpts$ = _yield$getConfigOpts.libraryDir;
             editor = _yield$getConfigOpts$.editor;
             engine = _yield$getConfigOpts$.engine;
             console.log(_chalk["default"].blue("[".concat(compInfo.isEditor ? '编辑态' : '配置态', ": ").concat(min ? "压  缩" : "非压缩", "]")), _chalk["default"].green("".concat(compInfo.isEditor ? editor : engine, "/").concat(compInfo.compName, " ---> ").concat(exportFileName)));
 
-          case 27:
+          case 29:
             j++;
-            _context.next = 13;
+            _context.next = 15;
             break;
 
-          case 30:
+          case 32:
           case "end":
             return _context.stop();
         }
@@ -120,12 +136,12 @@ var buildCompName = /*#__PURE__*/function () {
  */
 
 
-function compileCompByCompName(_x2) {
+function compileCompByCompName(_x2, _x3) {
   return _compileCompByCompName.apply(this, arguments);
 }
 
 function _compileCompByCompName() {
-  _compileCompByCompName = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(compName) {
+  _compileCompByCompName = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(compName, server) {
     var compInfos, index, key, compInfo;
     return _regenerator["default"].wrap(function _callee6$(_context6) {
       while (1) {
@@ -147,7 +163,7 @@ function _compileCompByCompName() {
             key = Object.keys(compInfos)[index];
             compInfo = compInfos[key];
             _context6.next = 9;
-            return buildCompName(compInfo);
+            return buildCompName(compInfo, server);
 
           case 9:
             index++;
@@ -206,7 +222,7 @@ var getRealPath = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
-  return function getRealPath(_x3) {
+  return function getRealPath(_x4) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -253,7 +269,7 @@ var getRelCompInfo = /*#__PURE__*/function () {
     }, _callee3);
   }));
 
-  return function getRelCompInfo(_x4) {
+  return function getRelCompInfo(_x5) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -300,7 +316,7 @@ var build = /*#__PURE__*/function () {
 
             name = compNames[index];
             _context5.next = 16;
-            return compileCompByCompName(name);
+            return compileCompByCompName(name, server);
 
           case 16:
             index++;
@@ -342,7 +358,7 @@ var build = /*#__PURE__*/function () {
               };
             }
 
-            console.log(watchDir);
+            console.log();
             console.log(_chalk["default"].blue("\u5F00\u59CB\u76D1\u542C[".concat(watchDir.editor, "\u3001").concat(watchDir.engine, "]\u76EE\u5F55")));
             watcher = _chokidar["default"].watch([watchDir.absoluteEditor, watchDir.absoluteEngine], {
               ignoreInitial: true
@@ -396,7 +412,7 @@ var build = /*#__PURE__*/function () {
                 }, _callee4);
               }));
 
-              return function (_x6, _x7) {
+              return function (_x7, _x8) {
                 return _ref5.apply(this, arguments);
               };
             }());
@@ -409,7 +425,7 @@ var build = /*#__PURE__*/function () {
     }, _callee5);
   }));
 
-  return function build(_x5) {
+  return function build(_x6) {
     return _ref4.apply(this, arguments);
   };
 }();
