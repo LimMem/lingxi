@@ -1,0 +1,19 @@
+{
+  "name": "create-lingxi",
+  "version": "0.0.4",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "create-lingxi": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lingxiteam/cli": "0.1.2",
+    "yargs-parser": "21.0.1"
+  }
+}
