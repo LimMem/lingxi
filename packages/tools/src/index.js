@@ -61,7 +61,7 @@ function build(src, outputFile) {
     .pipe(
       gulpIf(
         canBabelCompile,
-        through.obj(function(file, env, cb) {
+        through.obj(function (file, env, cb) {
           console.log(
             chalk.green(
               `[编译] ${file.path.replace(path.join(cwd, srcDir), '')}`
@@ -97,7 +97,10 @@ const watcherEventNameMap = {
   unlinkDir: '删除文件夹',
 };
 
-build([`${path.join(cwd, userOptions.srcDir)}/**`]).on('end', function() {
+build([
+  `${path.join(cwd, userOptions.srcDir)}/**`,
+  `!${path.join(cwd, userOptions.srcDir)}/template/**`,
+]).on('end', function () {
   console.log();
   console.log(`🌈✨编译完成!`);
   if (process.send) {
@@ -120,7 +123,7 @@ build([`${path.join(cwd, userOptions.srcDir)}/**`]).on('end', function() {
         build(
           fullPath,
           path.join(process.cwd(), userOptions.output, relPath, '../')
-        ).on('end', function() {
+        ).on('end', function () {
           console.log(
             chalk.green(
               `[${watcherEventNameMap[event]}: ${relPath}] 编译完成✨🚀`

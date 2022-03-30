@@ -142,25 +142,15 @@ var _default = /*#__PURE__*/function () {
             _context3.t1 = _toConsumableArray2["default"];
 
             if (!(outputType === 'all' || outputType === 'development')) {
-              _context3.next = 60;
+              _context3.next = 44;
               break;
             }
 
             _context3.t3 = optsPath;
-            _context3.t4 = [];
-            _context3.t5 = _toConsumableArray2["default"];
-            _context3.next = 19;
-            return getDefaultExternal();
-
-          case 19:
-            _context3.t6 = _context3.sent;
-            _context3.t7 = (0, _context3.t5)(_context3.t6);
-            _context3.t8 = (0, _toConsumableArray2["default"])(Object.keys((0, _utils.pkgInfo)().peerDependencies || {}));
-            _context3.t9 = (0, _toConsumableArray2["default"])(external);
-            _context3.t10 = _context3.t4.concat.call(_context3.t4, _context3.t7, _context3.t8, _context3.t9);
-            _context3.t11 = [];
-            _context3.t12 = _toConsumableArray2["default"];
-            _context3.next = 28;
+            _context3.t4 = [].concat((0, _toConsumableArray2["default"])(Object.keys((0, _utils.pkgInfo)().peerDependencies || {})), (0, _toConsumableArray2["default"])(external));
+            _context3.t5 = [];
+            _context3.t6 = _toConsumableArray2["default"];
+            _context3.next = 20;
             return (0, _rollupPlugins.getPlugins)({
               server: server,
               minFile: false,
@@ -169,98 +159,81 @@ var _default = /*#__PURE__*/function () {
               compName: compName
             });
 
-          case 28:
-            _context3.t13 = _context3.sent;
-            _context3.t14 = (0, _context3.t12)(_context3.t13);
-            _context3.t15 = [(0, _pluginCommonjs["default"])({
+          case 20:
+            _context3.t7 = _context3.sent;
+            _context3.t8 = (0, _context3.t6)(_context3.t7);
+            _context3.t9 = [(0, _pluginCommonjs["default"])({
               include: /node_modules/
             })];
-            _context3.t16 = _context3.t11.concat.call(_context3.t11, _context3.t14, _context3.t15);
-            _context3.t17 = _objectSpread;
-            _context3.t18 = _objectSpread;
-            _context3.t19 = {};
-            _context3.next = 37;
-            return getDefaultGlobals();
-
-          case 37:
-            _context3.t20 = _context3.sent;
-            _context3.t21 = (0, _context3.t18)(_context3.t19, _context3.t20);
-            _context3.t22 = globals || {};
-            _context3.t23 = (0, _context3.t17)(_context3.t21, _context3.t22);
-            _context3.t24 = name;
-            _context3.t25 = footer;
-            _context3.t26 = _winPath["default"];
-            _context3.t27 = _path["default"];
-            _context3.t28 = outputDir;
-            _context3.t29 = compName;
-            _context3.next = 49;
+            _context3.t10 = _context3.t5.concat.call(_context3.t5, _context3.t8, _context3.t9);
+            _context3.t11 = _objectSpread({
+              // ...await getDefaultGlobals(),
+              'react': "React"
+            }, globals || {});
+            _context3.t12 = name;
+            _context3.t13 = footer;
+            _context3.t14 = _winPath["default"];
+            _context3.t15 = _path["default"];
+            _context3.t16 = outputDir;
+            _context3.t17 = compName;
+            _context3.next = 33;
             return (0, _utils.getOutputFile)({
               isMin: false,
               compName: compName,
               isEditor: isEditor
             });
 
-          case 49:
-            _context3.t30 = _context3.sent;
-            _context3.t31 = _context3.t27.join.call(_context3.t27, _context3.t28, _context3.t29, _context3.t30);
-            _context3.t32 = (0, _context3.t26)(_context3.t31);
-            _context3.t33 = {
+          case 33:
+            _context3.t18 = _context3.sent;
+            _context3.t19 = _context3.t15.join.call(_context3.t15, _context3.t16, _context3.t17, _context3.t18);
+            _context3.t20 = (0, _context3.t14)(_context3.t19);
+            _context3.t21 = {
               format: "umd",
               sourcemap: false,
-              globals: _context3.t23,
-              name: _context3.t24,
-              footer: _context3.t25,
-              file: _context3.t32
+              globals: _context3.t11,
+              name: _context3.t12,
+              footer: _context3.t13,
+              file: _context3.t20
             };
-            _context3.next = 55;
+            _context3.next = 39;
             return (0, _utils.getOutputFile)({
               isMin: false,
               compName: compName,
               isEditor: isEditor
             });
 
-          case 55:
-            _context3.t34 = _context3.sent;
-            _context3.t35 = {
+          case 39:
+            _context3.t22 = _context3.sent;
+            _context3.t23 = {
               input: _context3.t3,
-              external: _context3.t10,
-              plugins: _context3.t16,
-              output: _context3.t33,
-              exportFileName: _context3.t34,
+              external: _context3.t4,
+              plugins: _context3.t10,
+              output: _context3.t21,
+              exportFileName: _context3.t22,
               min: false
             };
-            _context3.t2 = [_context3.t35];
-            _context3.next = 61;
+            _context3.t2 = [_context3.t23];
+            _context3.next = 45;
             break;
 
-          case 60:
+          case 44:
             _context3.t2 = [];
 
-          case 61:
-            _context3.t36 = _context3.t2;
-            _context3.t37 = (0, _context3.t1)(_context3.t36);
-            _context3.t38 = _toConsumableArray2["default"];
+          case 45:
+            _context3.t24 = _context3.t2;
+            _context3.t25 = (0, _context3.t1)(_context3.t24);
+            _context3.t26 = _toConsumableArray2["default"];
 
             if (!minFile) {
-              _context3.next = 111;
+              _context3.next = 79;
               break;
             }
 
-            _context3.t40 = optsPath;
-            _context3.t41 = [];
-            _context3.t42 = _toConsumableArray2["default"];
-            _context3.next = 70;
-            return getDefaultExternal();
-
-          case 70:
-            _context3.t43 = _context3.sent;
-            _context3.t44 = (0, _context3.t42)(_context3.t43);
-            _context3.t45 = (0, _toConsumableArray2["default"])(Object.keys((0, _utils.pkgInfo)().peerDependencies || {}));
-            _context3.t46 = (0, _toConsumableArray2["default"])(external);
-            _context3.t47 = _context3.t41.concat.call(_context3.t41, _context3.t44, _context3.t45, _context3.t46);
-            _context3.t48 = [];
-            _context3.t49 = _toConsumableArray2["default"];
-            _context3.next = 79;
+            _context3.t28 = optsPath;
+            _context3.t29 = [].concat((0, _toConsumableArray2["default"])(Object.keys((0, _utils.pkgInfo)().peerDependencies || {})), (0, _toConsumableArray2["default"])(external));
+            _context3.t30 = [];
+            _context3.t31 = _toConsumableArray2["default"];
+            _context3.next = 55;
             return (0, _rollupPlugins.getPlugins)({
               server: server,
               minFile: minFile,
@@ -269,79 +242,72 @@ var _default = /*#__PURE__*/function () {
               compName: compName
             });
 
-          case 79:
-            _context3.t50 = _context3.sent;
-            _context3.t51 = (0, _context3.t49)(_context3.t50);
-            _context3.t52 = [(0, _pluginCommonjs["default"])({
+          case 55:
+            _context3.t32 = _context3.sent;
+            _context3.t33 = (0, _context3.t31)(_context3.t32);
+            _context3.t34 = [(0, _pluginCommonjs["default"])({
               include: /node_modules/
             })];
-            _context3.t53 = _context3.t48.concat.call(_context3.t48, _context3.t51, _context3.t52);
-            _context3.t54 = _objectSpread;
-            _context3.t55 = _objectSpread;
-            _context3.t56 = {};
-            _context3.next = 88;
-            return getDefaultGlobals();
-
-          case 88:
-            _context3.t57 = _context3.sent;
-            _context3.t58 = (0, _context3.t55)(_context3.t56, _context3.t57);
-            _context3.t59 = globals || {};
-            _context3.t60 = (0, _context3.t54)(_context3.t58, _context3.t59);
-            _context3.t61 = name;
-            _context3.t62 = footer;
-            _context3.t63 = _winPath["default"];
-            _context3.t64 = _path["default"];
-            _context3.t65 = outputDir;
-            _context3.t66 = compName;
-            _context3.next = 100;
+            _context3.t35 = _context3.t30.concat.call(_context3.t30, _context3.t33, _context3.t34);
+            _context3.t36 = _objectSpread({
+              // ...await getDefaultGlobals(),
+              'react': "React"
+            }, globals || {});
+            _context3.t37 = name;
+            _context3.t38 = footer;
+            _context3.t39 = _winPath["default"];
+            _context3.t40 = _path["default"];
+            _context3.t41 = outputDir;
+            _context3.t42 = compName;
+            _context3.next = 68;
             return (0, _utils.getOutputFile)({
               isMin: true,
               compName: compName,
               isEditor: isEditor
             });
 
-          case 100:
-            _context3.t67 = _context3.sent;
-            _context3.t68 = _context3.t64.join.call(_context3.t64, _context3.t65, _context3.t66, _context3.t67);
-            _context3.t69 = (0, _context3.t63)(_context3.t68);
-            _context3.t70 = {
+          case 68:
+            _context3.t43 = _context3.sent;
+            _context3.t44 = _context3.t40.join.call(_context3.t40, _context3.t41, _context3.t42, _context3.t43);
+            _context3.t45 = (0, _context3.t39)(_context3.t44);
+            _context3.t46 = {
               format: "umd",
               sourcemap: false,
-              globals: _context3.t60,
-              name: _context3.t61,
-              footer: _context3.t62,
-              file: _context3.t69
+              globals: _context3.t36,
+              name: _context3.t37,
+              footer: _context3.t38,
+              file: _context3.t45
             };
-            _context3.next = 106;
+            _context3.next = 74;
             return (0, _utils.getOutputFile)({
               isMin: true,
               compName: compName,
               isEditor: isEditor
             });
 
-          case 106:
-            _context3.t71 = _context3.sent;
-            _context3.t72 = {
+          case 74:
+            _context3.t47 = _context3.sent;
+            _context3.t48 = {
               min: true,
-              input: _context3.t40,
-              external: _context3.t47,
-              plugins: _context3.t53,
-              output: _context3.t70,
-              exportFileName: _context3.t71
+              input: _context3.t28,
+              external: _context3.t29,
+              plugins: _context3.t35,
+              output: _context3.t46,
+              exportFileName: _context3.t47
             };
-            _context3.t39 = [_context3.t72];
-            _context3.next = 112;
+            _context3.t27 = [_context3.t48];
+            _context3.next = 80;
             break;
 
-          case 111:
-            _context3.t39 = [];
+          case 79:
+            _context3.t27 = [];
 
-          case 112:
-            _context3.t73 = _context3.t39;
-            _context3.t74 = (0, _context3.t38)(_context3.t73);
-            return _context3.abrupt("return", _context3.t0.concat.call(_context3.t0, _context3.t37, _context3.t74));
+          case 80:
+            _context3.t49 = _context3.t27;
+            _context3.t50 = (0, _context3.t26)(_context3.t49);
+            return _context3.abrupt("return", _context3.t0.concat.call(_context3.t0, _context3.t25, _context3.t50));
 
-          case 115:
+          case 83:
           case "end":
             return _context3.stop();
         }

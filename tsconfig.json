@@ -16,7 +16,8 @@
     "useDefineForClassFields": false,
     "noImplicitAny": false,
     "noResolve": true,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "jsx": "react"
   },
   "include": [
     "./src",

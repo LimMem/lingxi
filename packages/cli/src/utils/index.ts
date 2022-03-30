@@ -5,7 +5,6 @@ import defaultConfig from '../build/defaultConfig';
 import { getConfigFile } from './getConfig'
 import { cwd } from './tool';
 import { GetConfigOptsFunction } from '..';
-import { requireOrImport } from '@lingxiteam/utils';
 
 /**
  * 获取用户配置
@@ -17,7 +16,7 @@ export const getConfigOpts: GetConfigOptsFunction = async () => {
     return defaultConfig;
   }
   // TODO: 后续支持config es导入。暂时不作处理
-  const userConfig = await requireOrImport(path) || {};
+  const userConfig = await require(path) || {};
   const { editor, engine } = userConfig.libraryDir || {}
 
   return {

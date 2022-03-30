@@ -5,6 +5,7 @@ const yParser = require('yargs-parser');
 const args = yParser(process.argv.slice(2), {
   alias: {
     compName: 'compname',
+    platform: 'p',
   },
 });
 
@@ -24,7 +25,10 @@ switch (cliType) {
     });
     break;
   case 'create':
-    require('../lib/create');
+    require('../lib/create')({
+      appName: args._[1],
+      platform: args.platform || 'app',
+    });
   default:
     break;
 }

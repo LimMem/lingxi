@@ -55,7 +55,7 @@ export default async (opts) => {
       {
         input: optsPath,
         external: [
-          ...await getDefaultExternal(),
+          // ...await getDefaultExternal(),
           ...Object.keys(pkgInfo().peerDependencies || {}),
           ...external
         ],
@@ -75,7 +75,8 @@ export default async (opts) => {
           format: "umd",
           sourcemap: false,
           globals: {
-            ...await getDefaultGlobals(),
+            // ...await getDefaultGlobals(),
+            'react': "React",
             ...(globals || {})
           },
           name,
@@ -100,7 +101,7 @@ export default async (opts) => {
           min: true,
           input: optsPath,
           external: [
-            ...await getDefaultExternal(),
+            // ...await getDefaultExternal(),
             ...Object.keys(pkgInfo().peerDependencies || {}),
             ...external
           ],
@@ -120,7 +121,8 @@ export default async (opts) => {
             format: "umd",
             sourcemap: false,
             globals: {
-              ...await getDefaultGlobals(),
+              // ...await getDefaultGlobals(),
+              'react': "React",
               ...(globals || {})
             },
             name,
