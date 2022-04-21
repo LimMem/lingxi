@@ -18,7 +18,7 @@ export const getBabelConfig = async (): Promise<RollupBabelInputPluginOptions> =
       ...(babelOptions?.presets || [])
     ],
     plugins: [
-      [require.resolve('babel-plugin-import'), { libraryName: "antd-mobile", style: "true" }],
+      // [require.resolve('babel-plugin-import'), { libraryName: "antd-mobile", style: "true" }],
       [require.resolve('babel-plugin-react-require')],
       require.resolve('@babel/plugin-syntax-dynamic-import'),
       require.resolve('@babel/plugin-proposal-export-default-from'),

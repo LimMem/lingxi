@@ -39,10 +39,8 @@ var getBabelConfig = /*#__PURE__*/function () {
                 modules: "auto",
                 targets: targets
               }], [require.resolve('@babel/preset-react')]].concat((0, _toConsumableArray2["default"])((babelOptions === null || babelOptions === void 0 ? void 0 : babelOptions.presets) || [])),
-              plugins: [[require.resolve('babel-plugin-import'), {
-                libraryName: "antd-mobile",
-                style: "true"
-              }], [require.resolve('babel-plugin-react-require')], require.resolve('@babel/plugin-syntax-dynamic-import'), require.resolve('@babel/plugin-proposal-export-default-from'), require.resolve('@babel/plugin-proposal-export-namespace-from'), require.resolve('@babel/plugin-proposal-do-expressions'), require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'), require.resolve('@babel/plugin-proposal-optional-chaining'), [require.resolve('@babel/plugin-proposal-decorators'), {
+              plugins: [// [require.resolve('babel-plugin-import'), { libraryName: "antd-mobile", style: "true" }],
+              [require.resolve('babel-plugin-react-require')], require.resolve('@babel/plugin-syntax-dynamic-import'), require.resolve('@babel/plugin-proposal-export-default-from'), require.resolve('@babel/plugin-proposal-export-namespace-from'), require.resolve('@babel/plugin-proposal-do-expressions'), require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'), require.resolve('@babel/plugin-proposal-optional-chaining'), [require.resolve('@babel/plugin-proposal-decorators'), {
                 legacy: true
               }], [require.resolve('@babel/plugin-proposal-class-properties'), {
                 loose: true
